@@ -1,0 +1,458 @@
+* {
+	box-sizing: border-box;
+	font-family: "Outfit", sans-serif;
+	font-weight: 360;
+}
+body {
+	margin: 0;
+	min-height: 100vh;
+	background: rgb(200, 200, 200);
+	display: flex; flex-direction: column;
+}
+/*Barra superiore*/
+.topnav {
+	text-align: center;
+	position: sticky; top: 0;
+	min-width: 420px;
+	background-color: green;
+	z-index: 10;
+}
+a {
+	text-decoration: none;
+	color: white;
+}
+.titolo {
+	font-size: 30px; font-weight: bold; font-style: italic;
+	float: left;
+	padding: 10px 1.5% 14px 1%;
+}
+.center {
+	display: inline-block;
+	padding: 23px 1.2% 23px 1.2%;
+}
+.log {
+	float: right;
+	background-color: white;
+	color: rgb(16, 16, 104);
+	padding: 22px 1.6% 22px 1.6%;
+}
+a.center:hover:not(.active), a.log:hover:not(.active) {
+	text-decoration: underline;
+}
+.active {
+	background-color: rgb(0, 140, 255);
+}
+/*Form per inserimento dati viaggio*/
+form {
+	margin: auto;
+	border-style: solid 0px; border-radius: 16px;
+	background-color: white;
+	max-width: 700px;
+	padding: 16px;
+}
+.formhead {
+	font-size: 20px;
+	text-align: center;
+	background-color: white;
+	border-bottom-style: solid; border-width: 1px;
+	padding: 0px 0px 16px 0px;
+}
+.ricercherecenti {
+	padding: 5px;
+	background-color: rgb(240, 240, 240);
+	border: solid 1px gray;
+	border-radius: 8px;
+	display: inline-block;
+	cursor: pointer;
+}
+.ricerca {
+	padding: 10px;
+	white-space: nowrap;
+	border-radius: 5px;
+	z-index: 1;
+}
+.ricerca:hover {
+	background-color: rgb(200, 200, 200);
+}
+label {
+	padding: 10px 10px 0px 10px;
+}
+select {
+	border-radius: 5px;
+	font-size: 16px;
+}
+/*Bottone swap Andata/ritorno*/
+.swap {
+	margin-left: 16px;
+	font-size: 19px;
+	width: 36px; height: 36px;
+	border: 1px solid gray;
+	border-radius: 20%;
+	cursor: pointer;
+}
+input {
+	font-size: 16px;
+	border-radius: 10px; border-width: 1px; border-color: lightgray;
+	background-color: rgb(240, 240, 240);
+	padding: 5px;
+	margin: 5px 0 5px 0;
+	width: 240px;
+}
+/*Tasti Cerca e Cancella*/
+.button {
+	color: white; font-weight: bold;
+	width: 160px;
+	display: inline-block;
+	border-radius: 10px;
+	background-color: green;
+	padding: 12px;
+}
+.button:hover {
+	cursor: pointer;
+	box-shadow: 3px 4px rgba(0,0,0,0.3);
+	transition-duration: 0.25s;
+}
+.button:active{
+	transform: translateY(2px);
+	box-shadow: 1px 1px rgba(0,0,0,0.3);
+}
+/*Checkbox Andata/Ritorno*/
+.checkbox { 
+	display: none;
+}
+.toggle {
+	position: relative;
+	display:inline-block;
+	width: 49px;
+	height: 22px;
+	background-color: lightgray;
+	border-radius: 30px;
+	border: 3px solid lightgray;
+	margin-top: 0px;
+}
+.toggle:after {
+	content: '';
+	position: absolute;
+	width: 17px;
+	height: 17px;
+	border-radius: 50%;
+	background-color: white;
+	top: 0px; 
+	left: 2px;
+	transition: all 0.5s;
+}
+/*Movimento Checkbox*/
+.checkbox:checked + .toggle::after {
+	left: 25px; 
+}	   
+/*Sfondo Checkbox spuntata*/
+.checkbox:checked + .toggle {
+	background-color: rgb(50, 50, 50);
+	border: 3px solid rgb(50, 50, 50);
+}
+/*Parte inferiore*/
+footer {
+	text-align: left;
+	border-top-left-radius: 10px; border-top-right-radius: 10px;
+	width: 100%;
+	margin-top: auto;
+	background-color: white;
+	padding: 20px 40px 20px 40px;
+}
+/*Dropdown su Accedi, Visualizza passeggeri(dropdown2), Ricerche recenti*/
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+.dropbtn {
+	background-color: white;
+	display: inline-block;
+	color: black;
+	font-size: 16px;
+	border: none;
+}
+.dropdown-content {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 60px;
+	background-color: #f9f9f9;
+	min-width: 100%;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.3);
+	z-index: 1;
+}
+.dropdown-content a{
+	color: black;
+	padding: 10px 0px 14px 0px;
+	text-decoration: none;
+	display: block;
+}
+.dropdown-content a:hover {
+	background-color: rgb(224, 224, 224);
+}
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+.dropdown-content2 {
+	display: none;
+	position: absolute;
+	left: -160px;
+	top: 36px;
+	padding: 12px;
+	border-radius: 10px;
+	background-color: #f9f9f9;
+	min-width: min-content;
+	max-width: max-content;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.3);
+	z-index: 1;
+}
+.dropdown:hover .dropdown-content2 {
+	width:300px;
+	display: inline;
+}
+/* Non far apparire freccette su/giù per input type="number" (per Chrome, Safari, Edge, Opera) */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/*Tasti -/+ per i passeggeri*/
+.addSubPass {
+	font-size: 16px;
+	width: 24px; height: 24px;
+	border: solid 1px gray; border-radius: 8px;
+	cursor: pointer;
+}
+/*Carousel*/
+.carousel {
+	height: 400px;
+	width: 80%;
+	overflow: hidden;
+	position: relative;
+	left: 9%;
+	list-style: none;
+}
+.my-carousel {
+	border-radius: 10px;
+	margin: 16px;
+}
+.carousel__controls, .carousel__activator {
+	display: none;
+}
+.carousel__activator:nth-of-type(1):checked ~ .carousel__track {
+	transform: translateX(0%);
+}
+.carousel__activator:nth-of-type(1):checked ~ .carousel__slide:nth-of-type(1) {
+	transition: opacity 0.5s, transform 0.5s;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 1;
+	transform: scale(1);
+}
+.carousel__activator:nth-of-type(1):checked ~ .carousel__controls:nth-of-type(1) {
+	display: block;
+	opacity: 1;
+}
+.carousel__activator:nth-of-type(1):checked ~ .carousel__indicators .carousel__indicator:nth-of-type(1) {
+	opacity: 1;
+}
+.carousel__activator:nth-of-type(2):checked ~ .carousel__track {
+	transform: translateX(-100%);
+}
+.carousel__activator:nth-of-type(2):checked ~ .carousel__slide:nth-of-type(2) {
+	transition: opacity 0.5s, transform 0.5s;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 1;
+	transform: scale(1);
+}
+.carousel__activator:nth-of-type(2):checked ~ .carousel__controls:nth-of-type(2) {
+	display: block;
+	opacity: 1;
+}
+.carousel__activator:nth-of-type(2):checked ~ .carousel__indicators .carousel__indicator:nth-of-type(2) {
+	opacity: 1;
+}
+.carousel__activator:nth-of-type(3):checked ~ .carousel__track {
+	transform: translateX(-200%);
+}
+.carousel__activator:nth-of-type(3):checked ~ .carousel__slide:nth-of-type(3) {
+	transition: opacity 0.5s, transform 0.5s;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 1;
+	transform: scale(1);
+}
+.carousel__activator:nth-of-type(3):checked ~ .carousel__controls:nth-of-type(3) {
+	display: block;
+	opacity: 1;
+}
+.carousel__activator:nth-of-type(3):checked ~ .carousel__indicators .carousel__indicator:nth-of-type(3) {
+	opacity: 1;
+}
+.carousel__control {
+	height: 25px;
+	width: 25px;
+	margin-top: -15px;
+	top: 50%;
+	position: absolute;
+	display: block;
+	cursor: pointer;
+	border-width: 5px 5px 0 0;
+	border-style: solid;
+	border-color: rgb(16, 16, 104);
+	opacity: 0.35;
+	outline: 0;
+	z-index: 3;
+}
+.carousel__control:hover {
+	opacity: 1;
+}
+.carousel__control--backward {
+	left: 16px;
+	transform: rotate(-135deg);
+}
+.carousel__control--forward {
+	right: 16px;
+	transform: rotate(45deg);
+}
+.carousel__indicators {
+	position: absolute;
+	bottom: 16px;
+	width: 100%;
+	text-align: center;
+}
+.carousel__indicator {
+	width: 40px;
+	display: inline-block;
+	z-index: 1;
+	cursor: pointer;
+	opacity: 0.5;
+	margin: 0 3px 0 3px;
+}
+.carousel__indicator:hover {
+	background-color: rgb(16, 16, 104);
+	opacity: 0.75;
+}
+.carousel__track {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 0;
+	margin: 0;
+	transition: transform 0.5s ease 0s;
+}
+.carousel__track .carousel__slide {
+	display: block;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 1;
+}
+.carousel__track .carousel__slide:nth-of-type(1) {
+	transform: translateX(0%);
+}
+.carousel__track .carousel__slide:nth-of-type(2) {
+	transform: translateX(100%);
+}
+.carousel__track .carousel__slide:nth-of-type(3) {
+	transform: translateX(200%);
+}
+.carousel--scale .carousel__slide {
+	transform: scale(0);
+}
+.carousel__slide {
+	height: 100%;
+	position: absolute;
+	opacity: 0;
+	overflow: hidden;
+}
+.carousel--thumb .carousel__indicator {
+	height: 30px;
+	width: 30px;
+}
+.carousel__indicator {
+	background-color: rgb(16, 16, 104);
+}
+.carousel__slide:nth-of-type(1), .carousel--thumb .carousel__indicators .carousel__indicator:nth-of-type(1) {
+	background-image: url("pictures/carousel1.png");
+	background-size: cover;
+	background-position: center;
+}
+.carousel__slide:nth-of-type(2), .carousel--thumb .carousel__indicators .carousel__indicator:nth-of-type(2) {
+	background-position: center;
+	background-size: cover;
+}
+.carousel__slide:nth-of-type(3), .carousel--thumb .carousel__indicators .carousel__indicator:nth-of-type(3) {
+	background-image: url("pictures/carousel3.png");
+	background-size: cover;
+	background-position: right;
+}
+/*Stato treno*/
+.train-status {
+	font-size: 17px;
+	margin: 24px auto 24px auto;
+	background-color: white;
+	text-align: center;
+	max-width: fit-content;
+	padding: 19px;
+	border-radius: 10px;
+}
+/*Box di testo a sfondo blu per lo stato treno*/
+.box-stato {
+	color: white;
+	font-weight: 500;
+	background-color: rgb(16, 16, 104);
+	border-radius: 8px;
+	padding: 5px 8px 5px 8px;
+	margin-left: 8px;
+}
+
+.form-2{
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 40px;
+	text-align: left;
+	border-style: solid 0px; border-radius: 16px;
+	background-color: white;
+	min-width: 60%;
+	max-width: 500px;
+	padding: 16px;
+}
+
+.save-btn{
+	font-size:22px;
+	color: #fff;
+	background: darkblue;
+	width:250px;
+	height: 60px;
+	cursor: pointer;
+	border-radius: 3px;
+	display:grid;
+	place-content: center;
+}
+.loader{
+	pointer-events: none;
+	width: 30px;
+	height:30px;
+	border-radius: 50%;
+	border: 3px solid transparent;
+	border-top-color: white;
+	animation: an1 1s ease infinite;
+}
+@keyframes an1{
+	0%{
+		transform: rotate(0turn);
+	}
+	100%{
+		transform: rotate(1turn);
+	}
+}

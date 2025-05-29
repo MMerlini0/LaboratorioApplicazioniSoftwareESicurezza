@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Registrati</title>
+	<link href="stile.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+	<link rel="icon" href="pictures/LogoEasyRail.jpg" type="image/x-icon">
+</head>
+<body>	<!-- Barra superiore-->
+	<header class="topnav">
+		<nav>	
+			<a class="titolo" href="index.php" ALT="EasyRail">Untuned</a>
+			<div class="log dropdown">
+				<button class="dropbtn">Accedi</button>
+				<div class="dropdown-content">
+					<a href="Loginform.php">Login</a>
+					<a href="Register.html" class="center">Registrati</a>
+				</div>
+			</div>		</nav>
+	</header>
+	<main>
+			<!-- Form per inserimento dati registrazione-->
+		<form action="registrazione.php" method="post" style="margin-top: 60px auto 60px auto;min-width:30%;">
+			<div class="formhead">Registrazione giornalista</div>
+			<table style="margin-left: auto;margin-right: auto;">
+				<tr>
+					<p>
+					<td><label for="nome">Nome </label></td>
+					<td><input type="text" name="InputName" id="nome" required></td>
+					</p>
+				</tr>
+				<tr>
+					<p>
+					<td><label for="email">Email </label></td>
+					<td><input type="email" name="InputEmail" id="email" required></td>
+					</p>
+				</tr>
+				<tr>
+					<p>
+					<td><label for="pw">Password </label></td>
+					<td><input type="password" name="InputPassword" id="pw" required></td>
+					</p>
+				</tr>
+			</table>
+			<p>
+				<div style="text-align: center;">
+				<input class="button" type="submit" value="Registrati" id="register">
+				</div>
+			<p>
+		</form>
+	</main>
+	<!--Parte inferiore-->
+	<footer>
+		<table>
+			<tr>
+				<td>
+					<p>Untuned &copy;</p>
+					<p>Un progetto per Laboratorio di Architetture Software e Sicurezza Informatica - A.A. 2023/24 - Prof. Daniele Cono D'Elia, Prof. Leonardo Querzoni</p>
+				</td>
+			<tr>	
+				<td>Capitale Sociale 0&euro;. Fondatori: Merlini&DiCarlo&Scolamiero<p>Tutti i diritti riservati.</p></td>
+				<td colspan="">Sede legale Università La Sapienza -	Edificio Marco Polo, Viale Scalo San Lorenzo, 82, Roma</td>
+			</tr>
+		</table>
+	</footer>
+</body>
+</html>
