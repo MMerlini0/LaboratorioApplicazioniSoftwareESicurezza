@@ -44,7 +44,9 @@ a.center:hover:not(.active), a.log:hover:not(.active) {
 }
 /*Form per inserimento dati viaggio*/
 form {
-	margin: auto;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 40px;
 	border-style: solid 0px; border-radius: 16px;
 	background-color: white;
 	max-width: 700px;

@@ -155,37 +155,21 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 $_SESSION['artista1'] = $_SESSION[3];
                 $_SESSION['artista2'] = $_SESSION[4];
                 $_SESSION['artista3'] = $_SESSION[5];
-                ?> </div>
-                <form action="registrautente.php" method="post" style="margin-top: 60px auto 60px auto;min-width: 30%;">
-                <h1 class="formhead">Inserisci i dati per registrare le tue informazioni!</h1>
-                 <div style="text-align: center;">       <p>
-                        <label for="email">Email </label>
-                        <input type="email" name="InputEmail" id="email" value="" required>
-                <p>
-                <p>
-                        <label for="email">Password </label>
-                        <input type="password" name="InputPassword" id="email" value="" required>
-                <p>
-                <input type="hidden" name="InputRuolo" id="email" value="Utente" >
-
-                    
-                    
-                    <input class="button" type="submit" value="Invia" id="cerca">
-                    </div>
-                </p>
-            </form>
-            
+                ?> 
+            </div>
     </div>
   </div>
             
                 
             </div>
         </div>
+                    <!-- Post Creati -->
         <div class="form-2">
         <form>
             <h1 style="text-align:center;">Post creati</h1>
             <div class="table-responsive-lg" style="width:100%;">
-                <table class="table table-bordered"> <?php 
+                <br>
+                <table hidden="hidden" class="table table-bordered"> <?php 
                 $nome=$_SESSION['spotify_nome'];
                     $query ="SELECT * FROM post WHERE emailcreatore =(SELECT email from utente WHERE nome='$nome') ";
                     $result=pg_query($query);
@@ -230,6 +214,65 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 
             </div>
         </form>
+        <div style="text-align: center;">
+                    <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Mostra Post</a>
+                    <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Post</a>
+                </div>
+        </div>
+                    <!-- Articoli Creati -->
+        <div class="form-2">
+        <form>
+            <h1 style="text-align:center;">Articoli creati</h1>
+            <div class="table-responsive-lg" style="width:100%;">
+                <table hidden="hidden" class="table table-bordered"> <?php 
+                $nome=$_SESSION['spotify_nome'];
+                    $query ="SELECT * FROM articolo WHERE emailcreatore =(SELECT email from utente WHERE nome='$nome') ";
+                    $result=pg_query($query);
+                    $check=pg_num_rows($result); ?>
+                    <tbody>
+                    <?php
+                if($check >0){
+                    while ($row = pg_fetch_array($result)){
+                          ?>
+                                    <tr box >
+                                        <td class="name"><?php echo $row['titolo']; ?></td>
+                                        <td><?php echo $row['contenuto']; ?></td>
+                                        <td><?php echo $row['genere']; ?></td>
+                                        <td><?php echo $row['datapubblicazione']; ?></td>
+                                        <td><?php $creatore=$row['emailcreatore']; echo $row['emailcreatore']; ?></td>
+                                        <?php  if (!empty($_SESSION['spotify_token'])) { ?>
+                                        <td><form style="margin-top: -15px;">
+                                    <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>
+                        </form></td>
+                                <td> 
+                                    <form style="margin-top: -15px;" action="code.php" method="POST">
+                                    <input type="hidden" name=utentedeleteid value="<?php echo $row['postid']; ?>">
+                                    <button type="submit" class="btn btn-danger">Cancella dati</button>
+                                    <?php } else{ ?>
+                                        <td><form style="margin-top: -15px;">
+                                    <button href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success" disabled>Modifica dati</l>
+                        </form></td>
+                                <td> 
+                                    <form style="margin-top: -15px;" action="code.php" method="POST">
+                                    <input type="hidden" name=utentedeleteid value="<?php echo $row['postid']; ?>">
+                                    <button type="submit" class="btn btn-danger" disabled>Cancella dati</button>
+                                    
+                                    </tr> <?php }
+                        }
+                        }?>
+            </tbody>                  
+                </table>
+                
+            </div>
+        </form>
+        <div style="text-align: center;">
+                    <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Mostra Articoli</a>
+                    <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Articolo</a>
+        </div>
+        </div>
+        <div style="text-align: center;">
+        <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Richiedi Ruolo Giornalista</a>
+                </div>
         </div>
         
         </body>

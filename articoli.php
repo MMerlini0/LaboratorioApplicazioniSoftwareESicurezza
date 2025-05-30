@@ -35,9 +35,7 @@ require '_inc/curl.class.php';
 	<!--Barra superiore-->
 	<header class="topnav">
 		<nav>
-			<a class="titolo" href="index.php">Untuned</a>
-			<a class="center" href="index.php">Postpage</a>
-			<a class="center" href="articoli.php">ArticlePage</a>
+		<a class="titolo" href="index.php">Untuned</a>
 			<?php if (!empty($_SESSION['spotify_token'])) {
 						$__cURL = new CurlServer();
 
@@ -49,7 +47,7 @@ require '_inc/curl.class.php';
 						<div class="log dropdown">
 							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 							<div class="dropdown-content">
-								<a href="articoli.php">Articoli</a>
+							    <a href="articoli.php">Articoli</a>
 								<a href="profilo.php">Area Personale</a>
 								<a href="logout.php">Logout</a>
 							</div>

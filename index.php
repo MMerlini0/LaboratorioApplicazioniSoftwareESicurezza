@@ -38,8 +38,6 @@ require '_inc/curl.class.php';
 	<header class="topnav">
 		<nav>
 			<a class="titolo" href="index.php">Untuned</a>
-			<a class="center" href="index.php">Postpage</a>
-			<a class="center" href="articoli.php">ArticlePage</a>
 			<?php if (!empty($_SESSION['spotify_token'])) {
 						$__cURL = new CurlServer();
 
@@ -51,7 +49,7 @@ require '_inc/curl.class.php';
 						<div class="log dropdown">
 							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 							<div class="dropdown-content">
-								<a href="articoli.php">Articoli</a>
+							    <a href="articoli.php">Articoli</a>
 								<a href="profilo.php">Area Personale</a>
 								<a href="logout.php">Logout</a>
 							</div>
@@ -110,30 +108,19 @@ require '_inc/curl.class.php';
 				<?php } ?>
 
 	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
-		<form style="margin: auto;" action="index.php" method="POST">
-			<div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
-				<h3 style="margin: 0;">Genere:</h3>
-				<select 
-				style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; background-color: #f9f9f9; width: 150px;" 
-				name="inputgenerefiltro" 
-				id="inputgenerefiltro" 
-				required>
-					<option value="genere1">Genere 1</option>
-					<option value="genere2">Genere 2</option>	
-				</select>
-			</div>
-		</form>
-	<div>
+	<form style="margin-top: -15px;" action="index.php" method="POST">
+			<h3>Filtra per il genere   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required>
+								<option value="genere1">Genere 1</option>
+								<option value="genere2">Genere 2</option>	
+			</select>
+			<button type="submit" class="btn btn-danger">  Applica</button></form></h3>
+			<div>
 			<form action="" method="GET">
-				<div class="input-group mb-3">
-					<input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
-					<button type="submit" class="btn btn-primary">Search</button>
-				</div>
-			</form>
-		</div>
-    </div>
-	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
-	<form style="margin: auto;" action="index.php" method="POST">
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </form>			</div>
         <div class="table-responsive-lg" style="border:5px outset;" >
             <table class="table table-bordered">
                 <thead> 
@@ -142,7 +129,7 @@ require '_inc/curl.class.php';
 		<?php 
 			if($check >0){
 				while ($row = pg_fetch_array($result)){
-					?>
+					  ?>
 								<tr box >
 									<td class="name"><?php echo $row['titolo']; ?></td>
 									<td onclick="location.href='visualizzazionepost.php?POSTID=<?php echo $row['postid']; ?>';" style="cursor: pointer;">
