@@ -33,76 +33,23 @@ require '_inc/curl.class.php';
 </head>
 <body>
 	<!--Barra superiore-->
-	<header class="topnav">
-		<nav>
-		<a class="titolo" href="index.php">Untuned</a>
-			<?php if (!empty($_SESSION['spotify_token'])) {
-						$__cURL = new CurlServer();
-
-						$nome = 'https://api.spotify.com/v1/me';
-						
-						$nome_user = $__cURL->get_request($nome, $_SESSION['spotify_token']->access_token);
-						$_SESSION['spotify_nome'] = $nome_user->display_name;
-						?>
-						<div class="log dropdown">
-							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
-							<div class="dropdown-content">
-							    <a href="articoli.php">Articoli</a>
-								<a href="profilo.php">Area Personale</a>
-								<a href="logout.php">Logout</a>
-							</div>
-						</div>
-						<?php 
-					}else if($_SESSION['ruolo'] == 'Giornalista'){ ?>
-						<div class="log dropdown">
-							<button class="dropbtn"><?= $_SESSION['name']?></button>
-							<div class="dropdown-content">
-							<a href="articoli.php">Articoli</a>
-							<?php if($_SESSION['name'] == 'Admin'){ 
-									header("location:Admin.php");?>
-								<?php }else{?>
-								<a href="logout.php">Logout</a>
-								<?php } ?>
-							</div>
-						</div>
-						<?php 
-					}else{?>
-				<div class="log dropdown">
-					<button class="dropbtn">Accedi</button>
-				<div class="dropdown-content">
-					<a href="Loginform.php">Login</a>
-					<a href="Register.html">Registrati</a>
-				</div>
-			</div>
-			<?php }if(isset($_GET['search'])){
-			$filtervalues = $_GET['search'];
-			if(isset($_POST['inputgenerefiltro'])){
-				$generefiltro=$_POST['inputgenerefiltro'];
-				$query ="SELECT * from articolo WHERE genere='$generefiltro' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
-			$check=pg_num_rows($result);
-			}else{
-			$query ="SELECT * from articolo WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
-			$check=pg_num_rows($result);}
-			}else{
-			if(isset($_POST['inputgenerefiltro'])){
-				$generefiltro=$_POST['inputgenerefiltro'];
-				$query ="SELECT * from articolo WHERE genere='$generefiltro' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
-			$check=pg_num_rows($result);
-			}else{
+	<!--Barra superiore-->
+    <header class="topnav">
+			<nav>
+			<a class="titolo" >Untuned</a>
+					<div class="log dropdown">
+						<button class="dropbtn">Admin</button>
+					</div>
+				<a class=" center" href="Admin.php">Area Admin</a>
+				<a href="logout.php" style="margin-right: 1%;">  Logout</a>
+			</nav>
+		</header>
+			<?php
 			$query ="SELECT * from articolo  ORDER BY  datapubblicazione";
 			$result=pg_query($query);
-			$check=pg_num_rows($result);}} ?>
-		</nav>
-	</header>
+			$check=pg_num_rows($result); ?>
 	<br>
-	<?php  if (empty($_SESSION['spotify_token'])) { ?>
-	<div style="text-align: center;">
-                    <a href="creaarticolo.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Articolo</a>
-                </div>
-				<?php } ?>
+
 	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
 	<form style="margin-top: -15px;" action="articoli.php" method="POST">
 			<h3>Filtra per il genere   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required>
@@ -133,21 +80,12 @@ require '_inc/curl.class.php';
 									<td><?php echo $row['datapubblicazione']; ?></td>
 									<td><?php echo $row['emailcreatore']; ?></td>
 									<?php  if (empty($_SESSION['spotify_token'])) { ?>
-									<td><form style="margin-top: -15px;">
-                                <a href="edit.php?giornalistaarticoloid=<?php echo $row['articoloid']; ?>" class="btn btn-success">Modifica dati</a>
-                    </form></td>
-                            <td> 
                                 <form style="margin-top: -15px;" action="code.php" method="POST">
                                 <input type="hidden" name=giornalistadeleteid value="<?php echo $row['articoloid']; ?>">
-                                <button type="submit" class="btn btn-danger">Cancella dati</button>
 								<?php } else{ ?>
-									<td><form style="margin-top: -15px;">
-                                <button href="edit.php?giornalistaarticoloid=<?php echo $row['articoloid']; ?>" class="btn btn-success" disabled>Modifica dati</a>
-                    </form></td>
-                            <td> 
+
                                 <form style="margin-top: -15px;" action="code.php" method="POST">
                                 <input type="hidden" name=giornalistadeleteid value="<?php echo $row['articoloid']; ?>">
-                                <button type="submit" class="btn btn-danger" disabled>Cancella dati</button>
 								<?php } ?>
 								</tr> <?php
 					}

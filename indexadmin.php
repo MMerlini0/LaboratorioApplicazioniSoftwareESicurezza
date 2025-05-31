@@ -34,45 +34,17 @@ require '_inc/curl.class.php';
 	</style>
 </head>
 <body>
-	<!--Barra superiore-->
-	<header class="topnav">
-		<nav>
-			<a class="titolo" href="index.php">Untuned</a>
-			<?php if (!empty($_SESSION['spotify_token'])) {
-						$__cURL = new CurlServer();
-
-						$nome = 'https://api.spotify.com/v1/me';
-						
-						$nome_user = $__cURL->get_request($nome, $_SESSION['spotify_token']->access_token);
-						$_SESSION['spotify_nome'] = $nome_user->display_name;
-						?>
-						<div class="log dropdown">
-							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
-							<div class="dropdown-content">
-							    <a href="articoli.php">Articoli</a>
-								<a href="profilo.php">Area Personale</a>
-								<a href="logout.php">Logout</a>
-							</div>
-						</div>
-						<?php 
-					}else if(isset($_SESSION['ruolo']) && $_SESSION['ruolo'] == 'Giornalista'){ ?>
-						<div class="log dropdown">
-							<button class="dropbtn"><?= $_SESSION['name']?></button>
-							<div class="dropdown-content">
-							<a href="articoli.php">Articoli</a>
-							<a href="logout.php">Logout</a>
-						</div>
-						<?php 
-					}else{?>
-				<div class="log dropdown">
-					<button class="dropbtn">Accedi</button>
-				<div class="dropdown-content">
-					<a href="Loginform.php">Login</a>
-					<a href="Register.html">Registrati</a>
-				</div><?php if(isset($_SESSION['name']) && $_SESSION['name'] == 'Admin')
-									header("location:Admin.php");?>
-			</div>
-			<?php }
+<header class="topnav">
+			<nav>
+			<a class="titolo" >Untuned</a>
+					<div class="log dropdown">
+						<button class="dropbtn">Admin</button>
+					</div>
+				<a class=" center" href="Admin.php">Area Admin</a>
+				<a href="logout.php" style="margin-right: 1%;">  Logout</a>
+			</nav>
+		</header>
+			<?php 
 			if(isset($_GET['search'])){
 			$filtervalues = $_GET['search'];
 			if(isset($_POST['inputgenerefiltro'])){
@@ -98,8 +70,6 @@ require '_inc/curl.class.php';
 			if (!isset($_SESSION['ruolo'])){
 			$_SESSION['ruolo'] = '';}
 ?>
-		</nav>
-	</header>
 	<br>
 	<?php  if (!empty($_SESSION['spotify_token'])) { ?>
 		<div style="text-align: center;">
@@ -108,7 +78,7 @@ require '_inc/curl.class.php';
 				<?php } ?>
 
 	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
-	<form style="margin-top: -15px;" action="index.php" method="POST">
+	<form style="margin-top: -15px;" action="indexadmin.php" method="POST">
 			<h3>Genere:   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required>
 								<option value="genere1">Genere 1</option>
 								<option value="genere2">Genere 2</option>	
@@ -132,9 +102,8 @@ require '_inc/curl.class.php';
 					  ?>
 								<tr box >
 									<td class="name"><?php echo $row['titolo']; ?></td>
-									<td onclick="location.href='visualizzazionepost.php?POSTID=<?php echo $row['postid']; ?>';" style="cursor: pointer;">
-									<?php echo $row['contenuto']; ?> <br> <?php
-									echo 'clicca per Visualizzare' ?></td>
+									<td>
+									<?php echo $row['contenuto']; ?> <br> </td>
 									<td><?php echo $row['genere']; ?></td>
 									<td><?php echo $row['datapubblicazione']; ?></td>
 									<td><?php $creatore= $row['emailcreatore']; echo $row['emailcreatore']; ?></td>
@@ -145,16 +114,8 @@ require '_inc/curl.class.php';
                             <td> 
                                 <form style="margin-top: -15px;" action="code.php" method="POST">
                                 <input type="hidden" name=utentedeleteid value="<?php echo $row['postid']; ?>">
-                                <button type="submit" class="btn btn-danger">Cancella dati</button>
-								<?php } else{ ?>
-									<td><form style="margin-top: -15px;">
-                                <button href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success" disabled>Modifica dati</l>
-                    </form>
-                            <td> 
-                                <form style="margin-top: -15px;" action="code.php" method="POST">
-                                <input type="hidden" name=utentedeleteid value="<?php echo $row['postid']; ?>">
-                                <button type="submit" class="btn btn-danger" disabled>Cancella dati</button>
-								
+                
+								<?php } else{ ?>                    </form>
 								</tr> <?php }
 					}
 					}else {

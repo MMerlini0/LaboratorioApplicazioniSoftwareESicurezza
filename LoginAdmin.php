@@ -31,7 +31,7 @@
 	<main>
 			<!-- Form con inserimento credenziali-->
 		<form action="login.php" method="post" style="margin-top: 60px auto 60px auto;min-width: 30%;">
-			<div class="formhead">Accedi con le tue credenziali</div>
+			<div class="formhead">ACCEDI</div>
 			<table style="margin-left: auto;margin-right: auto;">
 				<tr>
 					<p>
@@ -48,7 +48,7 @@
 			</table>
 			<p>
 				<div style="text-align: center;">
-				<input class="button" type="submit" value="Cerca" id="cerca">
+				<input class="button" type="submit" value="LogIn" id="cerca">
 				</div>
 			</p>
 		</form>
