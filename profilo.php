@@ -32,7 +32,7 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
     <!--Barra superiore-->
     <header class="topnav">
         <nav style="height:70px;">
-        <a class="titolo" href="HomePage.php">Untuned</a>
+        <a class="titolo" href="index.php">Untuned</a>
 			<?php if(isset($_SESSION['name'])){?>
 				<div class="log dropdown">
 					<button class="dropbtn"><?= $_SESSION['name']?></button>

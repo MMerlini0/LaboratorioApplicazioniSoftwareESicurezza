@@ -17,7 +17,7 @@
 	<!-- Barra superiore-->
 	<header class="topnav">
 		<nav>	
-			<a class="titolo" href="HomePage.php" ALT="EasyRail">Untuned</a>
+			<a class="titolo" href="indexs.php" ALT="EasyRail">Untuned</a>
 			<div class="log dropdown">
 				<button class="dropbtn">Accedi</button>
 				<div class="dropdown-content">

@@ -33,7 +33,6 @@ require '_inc/curl.class.php';
 </head>
 <body>
 	<!--Barra superiore-->
-	<!--Barra superiore-->
     <header class="topnav">
 			<nav>
 			<a class="titolo" >Untuned</a>
@@ -45,7 +44,7 @@ require '_inc/curl.class.php';
 			</nav>
 		</header>
 			<?php
-			$query ="SELECT * from articolo  ORDER BY  datapubblicazione";
+			$query ="SELECT * from richieste";
 			$result=pg_query($query);
 			$check=pg_num_rows($result); ?>
 	<br>
@@ -61,31 +60,20 @@ require '_inc/curl.class.php';
 		<?php 
 			if($check >0){
 				while ($row = pg_fetch_array($result)){
+					$email=$row['email'];
+					$referenze=$row['referenze']
 					  ?>
 								<tr>
-									<td class="name"><?php echo $row['titolo']; ?></td>
-									<td onclick="location.href='visualizzazionearticolo.php?ARTICOLOID=<?php echo $row['articoloid']; ?>';" style="cursor: pointer;"><?php echo $row['contenuto']; ?></td>
-									<td><?php echo $row['genere']; ?></td>
-									<td><?php echo $row['datapubblicazione']; ?></td>
-									<td><?php echo $row['emailcreatore']; ?></td>
-									<?php  if (empty($_SESSION['spotify_token'])) { ?>
+									<td> Email Utente: <br><?php echo $email; ?></td>
+									<td> Referenze: <br><?php echo $referenze; ?></td>
                             <td> 
-                                <form style="margin-top: -15px;" action="code.php" method="POST">
-                                <input type="hidden" name=giornalistadeleteid value="<?php echo $row['articoloid']; ?>">
-                                <button type="submit" class="btn btn-danger">Cancella dati</button>
-								<?php } else{ ?>
-									<td><form style="margin-top: -15px;">
-                                <button href="edit.php?giornalistaarticoloid=<?php echo $row['articoloid']; ?>" class="btn btn-success" disabled>Modifica dati</a>
-                    </form></td>
-                            <td> 
-                                <form style="margin-top: -15px;" action="code.php" method="POST">
-                                <input type="hidden" name=giornalistadeleteid value="<?php echo $row['articoloid']; ?>">
-                                <button type="submit" class="btn btn-danger" disabled>Cancella dati</button>
+                                <form style="margin-top: -15px; align:center" action="code.php" method="POST">
+                                <input type="hidden" name="richiestericevute" value="<?php echo $email; ?>">
+                                <button type="submit" class="btn btn-danger" >Cancella dati</button>
 								<?php } ?>
 								</tr> <?php
-					}
 					}else {
-						echo "Nessun articolo disponibile";
+						echo "Nessuna richiesta disponibile";
 					}
 		?>
 		</tbody>

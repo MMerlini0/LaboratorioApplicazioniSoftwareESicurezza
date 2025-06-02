@@ -48,9 +48,10 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA L'ARTICOLO</div>
-				<input type="hidden" name=insertgiornalistaarticoloid value="<?php echo $row['numeroid'] + rand(); ?>">
+				<input type="hidden" name=insertgiornalistaarticoloidadmin value="<?php echo $row['numeroid'] + rand(); ?>">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
+				<input type="hidden" name=inputemailcreatore value="admin@admin.it">
 
                 <table style="margin-left: auto;margin-right: auto;">
                     <tr>

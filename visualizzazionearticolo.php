@@ -118,9 +118,8 @@ require '_inc/curl.class.php';
 									<td><?php echo $row['contenuto']; ?></td>
 									<td><?php echo $row['genere']; ?></td>
 									<td><?php echo $row['datapubblicazione']; ?></td>
-									<td><?php if (!isset($_SESSION['spotify_nome'])){
-			$creatore= $_SESSION['email'];} else{$creatore=$row['emailcreatore'];} echo $row['emailcreatore']; ?></td>
-									<?php  if (!empty($_SESSION['spotify_token'])) { ?>
+									<td><?php $creatore=$row['emailcreatore']; echo $row['emailcreatore']; ?></td>
+									<?php  if (empty($_SESSION['spotify_token'])) { ?>
 									<td><form style="margin-top: -15px;">
 									<button type="submit" class="btn btn-success" disabled>Modifica dati</button>
 								</form></td>
@@ -165,7 +164,7 @@ require '_inc/curl.class.php';
 									<td><?php echo $row3['contenuto']; ?></td>
 									<td><?php echo $row3['orariocommento']; ?></td>
 									<td><?php echo $row3['datacommento']; ?></td>
-									<?php if($_SESSION['email']==$creatore) { ?>
+									<?php if(!empty($_SESSION['email']))  { $_SESSION['email']==$creatore;?>
 									<td><form style="margin-top: -15px;">
                                 <a href="edit.php?utentearticoloidcommento=<?php echo $row3['commentiid']; ?>" class="btn btn-success">Modifica commento</a>
                     </form></td>

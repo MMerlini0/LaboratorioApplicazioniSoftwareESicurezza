@@ -33,7 +33,6 @@ require '_inc/curl.class.php';
 </head>
 <body>
 	<!--Barra superiore-->
-	<!--Barra superiore-->
     <header class="topnav">
 			<nav>
 			<a class="titolo" >Untuned</a>
@@ -45,7 +44,7 @@ require '_inc/curl.class.php';
 			</nav>
 		</header>
 			<?php
-			$query ="SELECT * from articolo  ORDER BY  datapubblicazione";
+			$query ="SELECT * from articolo WHERE ban='false'  ORDER BY  datapubblicazione";
 			$result=pg_query($query);
 			$check=pg_num_rows($result); ?>
 	<br>

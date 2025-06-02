@@ -327,4 +327,124 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
         $result=pg_query($dbconn,$query);
         header('location: profilo.php');
     }
+//UPGRADE UTENTE ADMIN
+if(isset($_POST['inputidutente']))
+    {
+        $idutente=$_POST['inputidutente'];
+        $ruolocorrente=$_POST['inputruolocorrente'];
+        $nuovoruolo=$_POST['inputnuovoruolo'];
+
+        $query = "UPDATE utente SET ruolo='$nuovoruolo' WHERE nome='$idutente' and ruolo='$ruolocorrente' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    //CREA POST ADMIN
+    if(isset($_POST['insertutentepostidadmin']))
+    {
+        $postid=$_POST['insertutentepostidadmin'];
+        $titolo=$_POST['inputtitolo'];
+        $contenuto=$_POST['inputcontenuto'];
+        $genere=$_POST['inputgenere'];
+        $datapubblicazione=$_POST['inputdatapubblicazione'];
+        $orariopubblicazione=$_POST['inputorariopubblicazione'];
+        $emailcreatore=$_POST['inputemailcreatore'];
+        
+
+
+        $q1 = "INSERT into post values ($1,$2,$3,$4,$5,$6,$7)";
+        $data = pg_query_params($dbconn, $q1,
+            array($postid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
+            header('location: Admin.php');
+    }
+    //CREA ARTICOLO ADMIN    
+    if(isset($_POST['insertgiornalistaarticoloidadmin']))
+    {
+        $articoloid=$_POST['insertgiornalistaarticoloidadmin'];
+        $titolo=$_POST['inputtitolo'];
+        $contenuto=$_POST['inputcontenuto'];
+        $genere=$_POST['inputgenere'];
+        $datapubblicazione=$_POST['inputdatapubblicazione'];
+        $orariopubblicazione=$_POST['inputorariopubblicazione'];
+        $emailcreatore=$_POST['inputemailcreatore'];
+        
+
+
+        $q1 = "INSERT into articolo values ($1,$2,$3,$4,$5,$6,$7)";
+        $data = pg_query_params($dbconn, $q1,
+        array($articoloid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
+        header('location: Admin.php'); 
+    }
+//DELETE RICHIESTA
+if(isset($_POST['richiestericevute'])){
+    $email=$_POST['richiestericevute'];
+    $query="DELETE FROM richieste WHERE email='$email'";
+    $result=pg_query($dbconn,$query);
+    header('location: Admin.php');
+}
+//BAN-SBAN
+if(isset($_POST['idpostban']))
+    {
+        $idpost=$_POST['idpostban'];
+
+        $query = "UPDATE post SET Ban='true' WHERE postid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idpostsban']))
+    {
+        $idpost=$_POST['idpostsban'];
+
+        $query = "UPDATE post SET Ban='false' WHERE postid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idarticoloban']))
+    {
+        $idpost=$_POST['idarticoloban'];
+
+        $query = "UPDATE articolo SET Ban='true' WHERE articoloid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idarticolosban']))
+    {
+        $idpost=$_POST['idarticolosban'];
+
+        $query = "UPDATE articolo SET Ban='false' WHERE articoloid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idcommentoban']))
+    {
+        $idpost=$_POST['idcommentoban'];
+
+        $query = "UPDATE commenti SET Ban='true' WHERE commentiid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idcommentosban']))
+    {
+        $idpost=$_POST['idcommentosban'];
+
+        $query = "UPDATE commenti SET Ban='false' WHERE commentiid='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idutenteban']))
+    {
+        $idpost=$_POST['idutenteban'];
+
+        $query = "UPDATE utente SET Ban='true' WHERE email='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+    if(isset($_POST['idutentesban']))
+    {
+        $idpost=$_POST['idutentesban'];
+
+        $query = "UPDATE utente SET Ban='false' WHERE email='$idpost' ";
+        pg_query($dbconn,$query);
+        header('location: Admin.php');
+    }
+
 ?>

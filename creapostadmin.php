@@ -45,12 +45,18 @@ require '_inc/curl.class.php';
 		</header>
 
 	<div>
+	<?php $query="SELECT count(*) as numeroid from post"; 
+		$result=pg_query($dbconn,$query);
+		$row = pg_fetch_array($result,NULL,PGSQL_ASSOC);
+		$ora= date("H:i:s");
+		$data= date("Y-m-d");
+		$q= "SELECT * from utente WHERE nome = $1 ";		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA POST</div>
-				<input type="hidden" name=insertutentepostid value="<?php echo $row['numeroid'] + 69; ?>">
+				<input type="hidden" name=insertutentepostidadmin value="<?php echo $row['numeroid'] + 69; ?>">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
-				<input type="hidden" name=inputemailcreatore value="<?php echo $ro['email']; ?>">
+				<input type="hidden" name=inputemailcreatore value="admin@admin.it">
 
                 <table style="margin-left: auto;margin-right: auto;">
                     <tr>

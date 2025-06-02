@@ -34,42 +34,43 @@ require '_inc/curl.class.php';
 	</style>
 </head>
 <body>
-<header class="topnav">
-			<nav>
-			<a class="titolo" >Untuned</a>
-					<div class="log dropdown">
+	<!--Barra superiore-->
+	<header class="topnav">
+		<nav>
+			<a class="titolo" href="index.php">Untuned</a>
+			<div class="log dropdown">
 						<button class="dropbtn">Admin</button>
 					</div>
 				<a class=" center" href="Admin.php">Area Admin</a>
 				<a href="logout.php" style="margin-right: 1%;">  Logout</a>
-			</nav>
-		</header>
 			<?php 
 			if(isset($_GET['search'])){
 			$filtervalues = $_GET['search'];
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
-				$query ="SELECT * from post WHERE genere='$generefiltro' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
+				$query ="SELECT * from post WHERE genere='$generefiltro' and ban='false' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);
 			}else{
-			$query ="SELECT * from post WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
+			$query ="SELECT * from post WHERE titolo LIKE '%$filtervalues%' and ban='false'' ORDER BY  datapubblicazione";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
-				$query ="SELECT * from post WHERE genere='$generefiltro' ORDER BY  datapubblicazione ";
+				$query ="SELECT * from post WHERE genere='$generefiltro' and ban='false' ORDER BY  datapubblicazione ";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);
 			}else{
-			$query ="SELECT * from post  ORDER BY  datapubblicazione";
+			$query ="SELECT * from post WHERE ban='false' ORDER BY  datapubblicazione";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);}}
 
 			if (!isset($_SESSION['ruolo'])){
 			$_SESSION['ruolo'] = '';}
 ?>
+		</nav>
+	</header>
 	<br>
 	<?php  if (!empty($_SESSION['spotify_token'])) { ?>
 		<div style="text-align: center;">
@@ -77,51 +78,84 @@ require '_inc/curl.class.php';
                 </div>
 				<?php } ?>
 
-	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
-	<form style="margin-top: -15px;" action="indexadmin.php" method="POST">
-			<h3>Genere:   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required>
-								<option value="genere1">Genere 1</option>
-								<option value="genere2">Genere 2</option>	
-			</select>
-			<button type="submit" class="btn btn-danger">  Applica</button></form></h3>
+
+	<!-- parte centrale-->
+	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto; margin-bottom: 0;">
+		<form style="margin-top: -15px; display: flex; justify-content: space-between; align-items: center;" action="index.php" method="POST">
+			<h3 style="margin: 0; margin-right: auto;">Genere</h3>
+			<div style="display: flex; align-items: center; margin-left: auto;">
+				<select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
+					<option value="genere1">Genere 1</option>
+					<option value="genere2">Genere 2</option>	
+				</select>
+				<button type="submit" class="btn btn-danger" style="margin-left: 10px;">Applica</button>
+			</div>
+		</form>
 			<div>
 			<form action="" method="GET">
                                     <div class="input-group mb-3">
                                         <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
                                         <button type="submit" class="btn btn-primary">Search</button>
                                     </div>
-                                </form>			</div>
+                                </form>
+							</div>
+    </div>
+	<!--fine di una div, inizio dell'altra-->
+	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
         <div class="table-responsive-lg" style="border:5px outset;" >
             <table class="table table-bordered">
                 <thead> 
                     <h1 style="text-align:center;color:black;">POST:</h1>
                 <tbody >
-		<?php 
-			if($check >0){
-				while ($row = pg_fetch_array($result)){
-					  ?>
-								<tr box >
-									<td class="name"><?php echo $row['titolo']; ?></td>
-									<td>
-									<?php echo $row['contenuto']; ?> <br> </td>
-									<td><?php echo $row['genere']; ?></td>
-									<td><?php echo $row['datapubblicazione']; ?></td>
-									<td><?php $creatore= $row['emailcreatore']; echo $row['emailcreatore']; ?></td>
-									<?php  if (!empty($_SESSION['spotify_token']) && $creatore == 'scolamierod@gmail.com') { ?>
-									<td><form style="margin-top: -15px;">
-                                <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>
-                    </form></td>
-                            <td> 
-                                <form style="margin-top: -15px;" action="code.php" method="POST">
-                                <input type="hidden" name=utentedeleteid value="<?php echo $row['postid']; ?>">
-                
-								<?php } else{ ?>                    </form>
-								</tr> <?php }
-					}
-					}else {
-						echo "Nessun post disponibile";
-					}
-		?>
+				<?php 
+    if($check > 0) {
+        while ($row = pg_fetch_array($result)) {
+            $creatore = $row['emailcreatore'];
+?>
+<!-- Card wrapper replacing <tr> -->
+<div class="post-card" onclick="location.href='visualizzazionepost.php?POSTID=<?php echo $row['postid']; ?>';">
+    <!-- Titolo -->
+    <div class="post-title">
+        <?php echo htmlspecialchars($row['titolo'], ENT_QUOTES, 'UTF-8'); ?>
+    </div>
+
+    <!-- Corpo -->
+    <div class="post-body">
+        <?php echo nl2br(htmlspecialchars($row['contenuto'], ENT_QUOTES, 'UTF-8')); ?>
+    </div>
+
+    <!-- Footer: meta e azioni -->
+    <div class="post-footer">
+        <!-- Meta: genere, data e email -->
+        <div class="post-meta">
+            <span class="genre"><?php echo htmlspecialchars($row['genere'], ENT_QUOTES, 'UTF-8'); ?></span>
+            <span class="date"><?php echo htmlspecialchars($row['datapubblicazione'], ENT_QUOTES, 'UTF-8'); ?></span>
+            <span class="email"><?php echo htmlspecialchars($creatore, ENT_QUOTES, 'UTF-8'); ?></span>
+        </div>
+
+        <!-- Azioni: Modifica/Cancella allineate a destra -->
+        <div class="post-actions">
+            <?php if (!empty($_SESSION['spotify_token']) && $creatore === 'scolamierod@gmail.com') { ?>
+                <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>
+                <form action="code.php" method="POST" style="display:inline">
+                    <input type="hidden" name="utentedeleteid" value="<?php echo $row['postid']; ?>">
+                    <button type="submit" class="btn btn-danger">Cancella dati</button>
+                </form>
+            <?php } else { ?>
+                <button class="btn btn-success" disabled>Modifica dati</button>
+                <button class="btn btn-danger" disabled>Cancella dati</button>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+
+<?php   
+        }
+    } else {
+        echo "<p>Nessun post disponibile</p>";
+    }
+?>
+
 		</tbody>
             </table>
         </div>

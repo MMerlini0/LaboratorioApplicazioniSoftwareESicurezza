@@ -26,6 +26,11 @@ a {
 	float: left;
 	padding: 10px 1.5% 14px 1%;
 }
+.pulsantiNav {
+	font-size: 30px; font-weight: bold;
+	display: inline-flex;
+	padding: 10px 1.5% 14px 1%;
+}
 .center {
 	display: inline-block;
 	padding: 23px 1.2% 23px 1.2%;
@@ -45,8 +50,6 @@ a.center:hover:not(.active), a.log:hover:not(.active) {
 /*Form per inserimento dati viaggio*/
 form {
 	margin: 0 auto;
-	margin-top: 50px;
-	margin-bottom: 40px;
 	border-style: solid 0px; border-radius: 16px;
 	background-color: white;
 	max-width: 700px;
@@ -458,3 +461,104 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		transform: rotate(1turn);
 	}
 }
+
+
+
+
+/* CSS visualizzazione post/articoli */
+tr {
+    border: 2px solid black;
+}
+
+.post-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;       /* Titolo in alto, footer in basso */
+	align-items: stretch;                 /* Espandi in larghezza */
+	height: 300px;                        /* O un min-height a piacere */
+	padding: 1rem;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	cursor: pointer;                      /* rende l’intero blocco cliccabile */
+  }
+  
+  /* — Titolo centrato in alto — */
+  .post-title {
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: bold;
+  }
+  
+  /* — Corpo centrato orizz. e vert. — */
+  .post-body {
+	flex: 1;                              /* prende tutto lo spazio centrale */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin: 1rem 0;
+  }
+  
+
+
+  .post-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  .post-meta {
+	display: flex;
+	gap: 1rem;
+  }
+  
+  .post-actions {
+	display: flex;
+	gap: 1rem;
+  }
+
+  .article-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	margin: 1rem auto;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	cursor: pointer;
+  }
+  
+  .article-title {
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: bold;
+  }
+  
+  .article-body {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin: 1rem 0;
+  }
+  
+
+  .article-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  .article-meta {
+	display: flex;
+	gap: 1rem;
+  }
+  
+  .article-actions {
+	display: flex;
+	gap: 1rem;
+  }
+  
+  

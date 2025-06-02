@@ -39,12 +39,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 			
 			//CONTROLLI
 			if($tipo == 'banP'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >BAN Post:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Post: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idpostban">ID Post: </label></td>
+                            <td><input type="text" name="idpostban" id="idpostban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -53,12 +53,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 </div>
 			<?php }
 			else if($tipo == 'banA'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >BAN Articolo:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Articolo: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idarticoloban">ID Articolo: </label></td>
+                            <td><input type="text" name="idarticoloban" id="idarticoloban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -67,12 +67,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 </div>
 			<?php }
 			else if($tipo == 'banU'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
-                <h1 style="text-align:center;" >BAN Utente:</h1>
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
+                <h1 style="text-align:center;" >Email Utente:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Utente: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idutenteban">ID Utente: </label></td>
+                            <td><input type="text" name="idutenteban" id="idutenteban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -80,12 +80,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 					<input class="button" type="reset" value="Annulla" id="inserisci">
                 </div>
 			<?php } else if($tipo == 'banC'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >BAN Commento:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Commento: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idcommentoban">ID Commento: </label></td>
+                            <td><input type="text" name="idcommentoban" id="idcommentoban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -93,12 +93,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 					<input class="button" type="reset" value="Annulla" id="inserisci">
                 </div>
 			<?php } else if($tipo == 'sbanP'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >SBAN Post:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Post: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idpostsban">ID Post: </label></td>
+                            <td><input type="text" name="idpostsban" id="idpostsban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -106,12 +106,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 					<input class="button" type="reset" value="Annulla" id="inserisci">
                 </div>
 			<?php } else if($tipo == 'sbanA'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >SBAN Articolo:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Articolo: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idarticolosban">ID Articolo: </label></td>
+                            <td><input type="text" name="idarticolosban" id="idarticolosban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -119,12 +119,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 					<input class="button" type="reset" value="Annulla" id="inserisci">
                 </div>
 			<?php } else if($tipo == 'sbanC'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >SBAN Commento:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Commento: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idcommentosban">ID Commento: </label></td>
+                            <td><input type="text" name="idcommentosban" id="idcommentosban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
@@ -132,12 +132,12 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 					<input class="button" type="reset" value="Annulla" id="inserisci">
                 </div>
 			<?php } else if($tipo == 'sbanU'){ ?>
-			<form style="min-width:30%;margin-left: auto;margin-right: auto;">
+			<form action="code.php" method="POST" style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >SBAN Utente:</h1>
 				<div style="text-align:center;">
 				<p>
-                            <td><label for="inputtitolo">ID Utente: </label></td>
-                            <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
+                            <td><label for="idutentesban">Email Utente: </label></td>
+                            <td><input type="text" name="idutentesban" id="idutentesban" required></td>
                         </p>
             </form>
 			<div style="text-align: center;">
