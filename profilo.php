@@ -1,11 +1,18 @@
 <?php
 session_start(); 
+// profilo.php (in alto)
+require_once '_inc/curl.class.php';
+
+global $curl;
+if (!isset($curl)) {
+    $curl = new CurlServer(); // se non lo passa il test, usiamo quello reale
+}
+
 $__app_secret = "a76619b8bddd432b9248fa0be1d4ce3a";
 $__app_client_id = "05a4f7e97e5f4fd9bd130d40feb97392";
 $__redirect_uri ="http://localhost:3000/callback/index.php";
 $__base_url="https://accounts.spotify.com";
 $__app_url="http://localhost:3000/index.php";
-require '_inc/curl.class.php';
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
 ?>
 <!DOCTYPE html>
@@ -46,9 +53,9 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                     <?php } ?>
                 </div>
             <?php } elseif (!empty($_SESSION['spotify_token'])) {
-                $__cURL = new CurlServer();
+                $curl = new CurlServer();
                 $nome = 'https://api.spotify.com/v1/me';
-                $nome_user = $__cURL->get_request($nome, $_SESSION['spotify_token']->access_token);
+                $nome_user = $curl->get_request($nome, $_SESSION['spotify_token']->access_token);
                 $_SESSION['spotify_nome'] = $nome_user->display_name;
             ?>
                 <div class="log dropdown">
@@ -77,9 +84,9 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 <div class="table-responsive-lg" style="width:100%;">
                     <table class="table table-bordered">
                         <?php 
-                        $__cURL = new CurlServer();
+
                         $nome = 'https://api.spotify.com/v1/me';
-                        $nome_user = $__cURL->get_request($nome, $_SESSION['spotify_token']->access_token);
+                        $nome_user = $curl->get_request($nome, $_SESSION['spotify_token']->access_token);
                         $_SESSION['spotify_nome'] = $nome_user->display_name;
                         $_SESSION['spotify_id'] = $nome_user->id;
                         ?>
