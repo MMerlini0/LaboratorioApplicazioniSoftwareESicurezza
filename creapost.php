@@ -19,7 +19,7 @@ $email = $_SESSION['email'];
 $query = "SELECT banpost FROM utente WHERE nome = $1 AND email = $2";
 $res = pg_query_params($dbconn, $query, [$nome, $email]);
 
-
+// SEZIONE BAN DA POST
 if ($res && pg_num_rows($res) > 0) {
     $row = pg_fetch_assoc($res);
     if ($row['banpost'] === 't') {
@@ -46,7 +46,35 @@ if ($res && pg_num_rows($res) > 0) {
 		exit;
 	}
 }
-
+// SEZIONE BAN DALLA PIATTAFORMA
+$query = "SELECT ban FROM utente WHERE nome = $1 AND email = $2";
+$res = pg_query_params($dbconn, $query, [$nome, $email]);
+if ($res && pg_num_rows($res) > 0) {
+    $row = pg_fetch_assoc($res);
+    if ($row['ban'] === 't') {
+        // L'utente è bannato dagli articoli
+        ?>
+        <!DOCTYPE html><html lang="it"><head>
+            <meta charset="UTF-8">
+            <title>Accesso Negato</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{margin:0;background:#f5f5f5;}</style>
+        </head><body>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sezione bloccata',
+                text: 'Sei stato bannato dalla piattaforma.',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => window.location.href = 'index.php');
+            </script>
+        </body></html>
+        <?php
+		exit;
+	}
+}
 
 
 
@@ -161,11 +189,11 @@ if ($res && pg_num_rows($res) > 0) {
                         <p>
                             <td><label for="inputgenere">Genere </label></td>
                             <td><select type="text" name="inputgenere" id="inputgenere" required>
-								<option value="genere1">Pop</option>
-					<option value="genere2">Hip Hop / Rap</option>	
-					<option value="genere3">Rock</option>	
-					<option value="genere4">EDM (Electronic Dance Music)</option>	
-					<option value="genere5">Reggaeton / Latin</option>	
+								<option value="Pop">Pop</option>
+					<option value="Hip Hop">Hip Hop</option>	
+					<option value="Rock">Rock</option>	
+					<option value="EDM">EDM (Electronic Dance Music)</option>	
+					<option value="Reggaeton">Reggaeton</option>	
 							</td>
                         </p>
                     </tr>

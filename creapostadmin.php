@@ -82,11 +82,11 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         <p>
                             <td><label for="inputgenere">Genere: </label></td>
                             <td><select type="text" name="inputgenere" id="inputgenere" required>
-								<option value="genere1">Pop</option>
-					<option value="genere2">Hip Hop / Rap</option>	
-					<option value="genere3">Rock</option>	
-					<option value="genere4">EDM (Electronic Dance Music)</option>	
-					<option value="genere5">Reggaeton / Latin</option>	
+								<option value="Pop">Pop</option>
+					<option value="Hip Hop">Hip Hop</option>	
+					<option value="Rock">Rock</option>	
+					<option value="EDM">EDM (Electronic Dance Music)</option>	
+					<option value="Reggaeton">Reggaeton</option>	
 							</td>
                         </p>
                     </tr>

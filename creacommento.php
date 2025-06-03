@@ -15,6 +15,7 @@ $query = "SELECT bancommenti FROM utente WHERE nome = $1 AND email = $2";
 $res = pg_query_params($dbconn, $query, [$nome, $email]);
 
 
+// SEZIONE BAN DAI COMMENTI
 if ($res && pg_num_rows($res) > 0) {
     $row = pg_fetch_assoc($res);
     if ($row['bancommenti'] === 't') {
@@ -32,6 +33,35 @@ if ($res && pg_num_rows($res) > 0) {
                 icon: 'error',
                 title: 'Sezione bloccata',
                 text: 'Sei stato bannato dalla creazione di commenti.',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => window.location.href = 'index.php');
+            </script>
+        </body></html>
+        <?php
+		exit;
+	}
+}
+// SEZIONE BAN DALLA PIATTAFORMA
+$query = "SELECT ban FROM utente WHERE nome = $1 AND email = $2";
+$res = pg_query_params($dbconn, $query, [$nome, $email]);
+if ($res && pg_num_rows($res) > 0) {
+    $row = pg_fetch_assoc($res);
+    if ($row['ban'] === 't') {
+        // L'utente è bannato dagli articoli
+        ?>
+        <!DOCTYPE html><html lang="it"><head>
+            <meta charset="UTF-8">
+            <title>Accesso Negato</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{margin:0;background:#f5f5f5;}</style>
+        </head><body>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sezione bloccata',
+                text: 'Sei stato bannato dalla piattaforma.',
                 showConfirmButton: false,
                 timer: 2500
             }).then(() => window.location.href = 'index.php');

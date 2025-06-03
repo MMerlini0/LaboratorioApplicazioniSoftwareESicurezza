@@ -155,9 +155,11 @@ require '_inc/curl.class.php';
                                 <td><label for="genere">genere</label></td>
                                 <td>
                                     <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
-                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
-                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
-                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                        <option value="Pop" <?= $row['genere'] == 'Pop' ? 'selected' : '' ?>>Pop</option>
+                                        <option value="Hip Hop" <?= $row['genere'] == 'Hip Hop' ? 'selected' : '' ?>>Hip Hop</option>
+                                        <option value="Rock" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Rock</option>
+                                        <option value="EDM" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>EDM</option>
+                                        <option value="Reggaeton" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Reggaeton</option>
                                     </select>
                                 </td>
                             </p>
@@ -323,9 +325,11 @@ require '_inc/curl.class.php';
                                 <td><label for="genere">genere</label></td>
                                 <td>
                                     <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
-                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
-                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
-                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                        <option value="Pop" <?= $row['genere'] == 'Pop' ? 'selected' : '' ?>>Pop</option>
+                                        <option value="Hip Hop" <?= $row['genere'] == 'Hip Hop' ? 'selected' : '' ?>>Hip Hop</option>
+                                        <option value="Rock" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Rock</option>
+                                        <option value="EDM" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>EDM</option>
+                                        <option value="Reggaeton" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Reggaeton</option>
                                     </select>
                                 </td>
                             </p>
@@ -373,9 +377,11 @@ require '_inc/curl.class.php';
                                 <td><label for="genere">genere</label></td>
                                 <td>
                                     <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
-                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
-                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
-                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                        <option value="Pop" <?= $row['genere'] == 'Pop' ? 'selected' : '' ?>>Pop</option>
+                                        <option value="Hip Hop" <?= $row['genere'] == 'Hip Hop' ? 'selected' : '' ?>>Hip Hop</option>
+                                        <option value="Rock" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Rock</option>
+                                        <option value="EDM" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>EDM</option>
+                                        <option value="Reggaeton" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Reggaeton</option>
                                     </select>
                                 </td>
                             </p>
@@ -431,9 +437,11 @@ require '_inc/curl.class.php';
                                         <td><label for="genere">genere</label></td>
                                         <td>
                                             <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
-                                                <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
-                                                <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
-                                                <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                        <option value="Pop" <?= $row['genere'] == 'Pop' ? 'selected' : '' ?>>Pop</option>
+                                        <option value="Hip Hop" <?= $row['genere'] == 'Hip Hop' ? 'selected' : '' ?>>Hip Hop</option>
+                                        <option value="Rock" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Rock</option>
+                                        <option value="EDM" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>EDM</option>
+                                        <option value="Reggaeton" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Reggaeton</option>
                                             </select>
                                         </td>
                                     </p>
@@ -501,9 +509,11 @@ require '_inc/curl.class.php';
                                         <td><label for="genere">genere</label></td>
                                         <td>
                                             <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
-                                                <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
-                                                <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
-                                                <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                                <option value="Pop" <?= $row['genere'] == 'Pop' ? 'selected' : '' ?>>Pop</option>
+                                                <option value="Hip Hop" <?= $row['genere'] == 'Hip Hop' ? 'selected' : '' ?>>Hip Hop</option>
+                                                <option value="Rock" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Rock</option>
+                                                <option value="EDM" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>EDM</option>
+                                                <option value="Reggaeton" <?= $row['genere'] == 'Rock' ? 'selected' : '' ?>>Reggaeton</option>
                                             </select>
                                         </td>
                                     </p>
