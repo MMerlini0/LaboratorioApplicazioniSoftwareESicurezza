@@ -15,6 +15,40 @@ if (!isset($_SESSION['spotify_nome']) || !isset($_SESSION['email'])) {
 
 $nome = $_SESSION['spotify_nome'];
 $email = $_SESSION['email'];
+
+
+$query = "SELECT banarticoli FROM utente WHERE nome = $1 AND email = $2";
+$res = pg_query_params($dbconn, $query, [$nome, $email]);
+
+
+if ($res && pg_num_rows($res) > 0) {
+    $row = pg_fetch_assoc($res);
+    if ($row['banarticoli'] === 't') {
+        // L'utente è bannato dagli articoli
+        ?>
+        <!DOCTYPE html><html lang="it"><head>
+            <meta charset="UTF-8">
+            <title>Accesso Negato</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{margin:0;background:#f5f5f5;}</style>
+        </head><body>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sezione bloccata',
+                text: 'Sei stato bannato dalla creazione di articoli.',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => window.location.href = 'index.php');
+            </script>
+        </body></html>
+        <?php
+		exit;
+	}
+}
+
+
 $q = "SELECT ruolo FROM utente WHERE nome = $1 AND email = $2";
 $r = pg_query_params($dbconn, $q, array($nome, $email));
 $utente = pg_fetch_assoc($r);
@@ -24,6 +58,9 @@ if (!$utente || $utente['ruolo'] !== 'Giornalista') {
     header("Location: index.php");
     exit;
 }
+
+
+
 ?>
 <html lang="en">
 <head>
@@ -111,7 +148,7 @@ if (!$utente || $utente['ruolo'] !== 'Giornalista') {
 		?><br><br>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA L'ARTICOLO</div>
-				<input type="hidden" name=insertgiornalistaarticoloid value="<?php echo $row['numeroid'] + rand(); ?>">
+				<input type="hidden" name="tokenArticolo" value="true">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
 				<input type="hidden" name=inputemailcreatore value="<?php echo $ro['email']; ?>">

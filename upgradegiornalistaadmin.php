@@ -56,27 +56,37 @@ require '_inc/curl.class.php';
             <table class="table table-bordered">
                 <thead>
                     <h1 style="text-align:center;color:black;">RCIHIESTE RICEVUTE:</h1>
-                <tbody>
-		<?php 
-			if($check >0){
-				while ($row = pg_fetch_array($result)){
-					$email=$row['email'];
-					$referenze=$row['referenze']
-					  ?>
-								<tr>
-									<td> Email Utente: <br><?php echo $email; ?></td>
-									<td> Referenze: <br><?php echo $referenze; ?></td>
-                            <td> 
-                                <form style="margin-top: -15px; align:center" action="code.php" method="POST">
-                                <input type="hidden" name="richiestericevute" value="<?php echo $email; ?>">
-                                <button type="submit" class="btn btn-danger" >Cancella dati</button>
-								<?php } ?>
-								</tr> <?php
-					}else {
-						echo "Nessuna richiesta disponibile";
-					}
-		?>
-		</tbody>
+					<tbody>
+						<?php
+						if ($check > 0) {
+							while ($row = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+								$email     = $row['email'];
+								$referenze = $row['referenze'];
+						?>
+							<tr>
+								<td>Email Utente:<br><?= htmlspecialchars($email) ?></td>
+
+								<td>Referenze:<br><?= nl2br(htmlspecialchars($referenze)) ?></td>
+
+								<!-- colonna azione: larghezza fissa e contenuto centrato -->
+								<td class="azione">
+									<form action="code.php" method="POST">
+										<input type="hidden"
+											name="richiestericevute"
+											value="<?= htmlspecialchars($email) ?>">
+										<button type="submit" class="btn btn-danger btn-sm">
+											Cancella
+										</button>
+									</form>
+								</td>
+							</tr>
+						<?php
+							}
+						} else {
+							echo '<tr><td colspan="3" class="text-center">Nessuna richiesta disponibile</td></tr>';
+						}
+						?>
+					</tbody>
             </table>
         </div>
     </div>

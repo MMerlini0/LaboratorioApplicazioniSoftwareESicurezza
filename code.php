@@ -1,6 +1,14 @@
 <?php session_start();
 //Connessione DB
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
+// Vedo se nella sessione non sono admin e se il token da admin è settato e sta a true, (lo setto a false)
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) { // Non sono admin
+    if(isset($_POST['creato_da_admin']) && $_POST['creato_da_admin'] === 'true') { // E qualcuno prova a spacciarsene
+        $_POST['creato_da_admin'] = 'false'; // Tolgo il token
+    }
+}
+
+
 
 //Controlli su diversi valori inviati da un form della fase di inserimento nella pagina insert.php
 if(isset($_POST['insertnome']))
@@ -24,7 +32,8 @@ if(isset($_POST['insertnome']))
 }
 
 
-if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_POST['inputemailcreatore']))
+// Creazione di un post
+if(isset($_POST['tokenPost']) && $_POST['tokenPost'] === 'true')
 {
     //CREA POST ADMIN
     if (isset($_POST['creato_da_admin']) && $_POST['creato_da_admin'] === "true") {
@@ -65,43 +74,81 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
             exit;
         }
         header('location: index.php');
+        exit;
     }
 }
-    if(isset($_POST['insertutentecommentoidpost']))
-    {
-        $commentiid=$_POST['insertutentecommentoidpost'];
-        $postid=$_POST['inpututentepostid'];
-        $articoloid=NULL;
-        $utenteemail=$_POST['inputemailcreatore'];
-        $contenuto=$_POST['inputcontenuto'];
-        $orariocommento=$_POST['inputorariopubblicazione'];
-        $datacommento=$_POST['inputdatapubblicazione'];
+
+// Creazione di un commento
+if (isset($_POST['tokenCommento']) && $_POST['tokenCommento'] === 'true') {
+    $postid          = $_POST['inpututentepostid'];
+    $articoloid      = null; 
+    $utenteemail     = $_POST['inputemailcreatore'];
+    $contenuto       = $_POST['inputcontenuto'];
+    $orariocommento  = $_POST['inputorariopubblicazione'];
+    $datacommento    = $_POST['inputdatapubblicazione'];
+
+    $q1 = "INSERT INTO commenti (postid, articoloid, utenteemail, contenuto, orariocommento, datacommento)
+            VALUES ($1, $2, $3, $4, $5, $6)";
+
+    $res = pg_query_params($dbconn, $q1, [
+        $postid, $articoloid, $utenteemail, $contenuto, $orariocommento, $datacommento
+    ]);
+
+    if ($res) {
+        header('Location: index.php');
+    } else {
+        error_log("Errore inserimento commento: " . pg_last_error($dbconn));
+        echo "<script>alert('Errore nell\'inserimento del commento.'); window.location.href = 'index.php';</script>";
+    }
+    exit;
+}
+
+if(isset($_POST['tokenCommentoArticolo']) && $_POST['tokenCommentoArticolo'] === 'true')
+{
+    $postid = NULL;
+    $articoloid=$_POST['inpututentearticoloid'];
+    $utenteemail=$_POST['inputemailcreatore'];
+    $contenuto=$_POST['inputcontenuto'];
+    $orariocommento=$_POST['inputorariopubblicazione'];
+    $datacommento=$_POST['inputdatapubblicazione'];
 
 
-        $q1 = "INSERT into commenti values ($1,$2,$3,$4,$5,$6,$7)";
-        $data = pg_query_params($dbconn, $q1,
-            array($commentiid, $postid,$articoloid,$utenteemail,$contenuto,$orariocommento,$datacommento));
-            header('location: index.php');
-        }
-        if(isset($_POST['insertutentecommentoidarticolo']))
-        {
-            $commentiid=$_POST['insertutentecommentoidarticolo'];
-            $postid=NULL;
-            $articoloid=$_POST['inpututentearticoloid'];
-            $utenteemail=$_POST['inputemailcreatore'];
-            $contenuto=$_POST['inputcontenuto'];
-            $orariocommento=$_POST['inputorariopubblicazione'];
-            $datacommento=$_POST['inputdatapubblicazione'];
+    $q1 = "INSERT into commenti (postid, articoloid, utenteemail, contenuto, orariocommento, datacommento)
+                values ($1,$2,$3,$4,$5,$6)";
+    $data = pg_query_params($dbconn, $q1,
+        array($postid,$articoloid,$utenteemail,$contenuto,$orariocommento,$datacommento));
+    if ($data) {
+        header('Location: index.php');
+    } else {
+        error_log("Errore inserimento commento: " . pg_last_error($dbconn));
+        echo "<script>alert('Errore nell\'inserimento del commento.'); window.location.href = 'index.php';</script>";
+    }
+    exit;
+}
+
+
+// Creazione di un articolo
+if(isset($_POST['tokenArticolo']) && $_POST['tokenArticolo'] === 'true') {
     
-    
-            $q1 = "INSERT into commenti values ($1,$2,$3,$4,$5,$6,$7)";
-            $data = pg_query_params($dbconn, $q1,
-                array($commentiid, $postid,$articoloid,$utenteemail,$contenuto,$orariocommento,$datacommento));
-                header('location: articoli.php');
-            }
-    if(isset($_POST['insertarticoloid']))
-    {
-        $articoloid=$_POST['insertarticoloid'];
+    //CREA ARTICOLO ADMIN
+    if (isset($_POST['creato_da_admin']) && $_POST['creato_da_admin'] === "true") {
+        $titolo = $_POST['inputtitolo'];
+        $contenuto = $_POST['inputcontenuto'];
+        $genere = $_POST['inputgenere'];
+        $datapubblicazione = $_POST['inputdatapubblicazione'];
+        $orariopubblicazione = $_POST['inputorariopubblicazione'];
+        $emailcreatore = $_POST['inputemailcreatore'];
+
+        $q1 = "INSERT INTO articolo (titolo, contenuto, genere, datapubblicazione, orariopubblicazione, emailcreatore)
+            VALUES ($1, $2, $3, $4, $5, $6)";
+        $data = pg_query_params($dbconn, $q1, array(
+            $titolo, $contenuto, $genere, $datapubblicazione, $orariopubblicazione, $emailcreatore
+        ));
+
+        header('Location: Admin.php');
+        exit;
+    } else { // Creato da giornalista
+
         $titolo=$_POST['inputtitolo'];
         $contenuto=$_POST['inputcontenuto'];
         $genere=$_POST['inputgenere'];
@@ -110,12 +157,18 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         $emailcreatore=$_POST['inputemailcreatore'];
         
 
-
-        $q1 = "INSERT into articolo values ($1,$2,$3,$4,$5,$6,$7)";
-        $data = pg_query_params($dbconn, $q1,
-        array($articoloid, $titolo,$contenuto,$genere,$datapubblicazione,$emailcreatore,$orariopubblicazione));
-        header('location: admin.php'); 
+        $q1 = "INSERT INTO articolo (titolo, contenuto, genere, datapubblicazione, orariopubblicazione, emailcreatore)
+            VALUES ($1, $2, $3, $4, $5, $6)";
+        $data = pg_query_params($dbconn, $q1, array(
+            $titolo, $contenuto, $genere, $datapubblicazione, $orariopubblicazione, $emailcreatore
+        ));
+        header('location: index.php'); 
     }
+}
+    
+    
+
+
     if(isset($_POST['insertgiornalistaarticoloid']))
     {
         $articoloid=$_POST['insertgiornalistaarticoloid'];
@@ -133,29 +186,7 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         array($articoloid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
         header('location: articoli.php'); 
     }
-    if(isset($_POST['inputcodice3']))
-    {
-        $codice=$_POST['inputcodice3'];
-        $f0=$_POST['inputfermata0'];
-        $f1=$_POST['inputfermata1'];
-        $f2=$_POST['inputfermata2'];
-        $f3=$_POST['inputfermata3'];
-        $f4=$_POST['inputfermata4'];
-        $f5=$_POST['inputfermata5'];
-        $hf0=$_POST['inputhfermata0'];
-        $hf1=$_POST['inputhfermata1'];
-        $hf2=$_POST['inputhfermata2'];
-        $hf3=$_POST['inputhfermata3'];
-        $hf4=$_POST['inputhfermata4'];
-        $hf5=$_POST['inputhfermata5'];
-        
 
-
-        $q4 = "insert into trenocompleto values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
-        $data = pg_query_params($dbconn, $q4,
-            array($codice,$f0,$f1,$f2,$f3,$f4,$f5,$hf0,$hf1,$hf2,$hf3,$hf4,$hf5));
-            header('location: admin.php');
-    }
 
 //Controlli su diversi valori inviati da un form della fase di modifica dati nella pagina edit.php
     if(isset($_POST['updateemail']))
@@ -212,7 +243,7 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         genere='$genere',orariopubblicazione='$orariopubblicazione', datapubblicazione='$datapubblicazione'
         WHERE postid='$postid'";
         pg_query($dbconn,$query);
-        header('location: shpost.php');
+        header('location: indeadmin.php');
     }
 
     if(isset($_POST['updateutentepostid']))
@@ -245,9 +276,9 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         header('location: sharticolo.php');
     }
 
-    if(isset($_POST['updategiornalistaarticoloid']))
+    if(isset($_POST['updateutentearticoloid']))
     {
-        $articoloid=$_POST['updategiornalistaarticoloid'];
+        $articoloid=$_POST['updateutentearticoloid'];
         $titolo=$_POST['inputtitolo'];
         $contenuto=$_POST['inputcontenuto'];
         $genere=$_POST['inputgenere'];
@@ -259,19 +290,6 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         header('location: articoli.php');
     }
 
-    if(isset($_POST['updatecodbiglietto']))
-    {
-        $codice=$_POST['inputcodice3'];
-        $email=$_POST['inputemail2'];
-        $codbiglietto=$_POST['updatecodbiglietto'];
-        $orariopart=$_POST['inputhpartenza'];
-        $orarioarr=$_POST['inputharrivo'];
-        $datapartenza=$POST['inputdatapartenza'];
-
-        $query = "UPDATE prenotazione SET codice='$codice', email='$email', codbiglietto='$codbiglietto',hpartenza='$orariopart' , harrivo ='$orarioarr', datapartenza='$datapartenza' WHERE codbiglietto='$codbiglietto' and email='$email'";
-        $data = pg_query($dbconn,$query);
-        header('location: shprenotazioni.php');
-    }
 
 //Controlli su diversi valori inviati da un form quando viene cliccato il bottone per la cancellazione dei dati
     if(isset($_POST['deleteemail'])){
@@ -291,7 +309,7 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         $postid=$_POST['deleteid'];
         $query="DELETE FROM post WHERE postid='$postid'";
         $result=pg_query($dbconn,$query);
-        header('location: shpost.php');
+        header('location: indexadmin.php');
     }
     if(isset($_POST['utentedeleteid'])){
         $postid=$_POST['utentedeleteid'];
@@ -311,7 +329,7 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         $articoloid=$_POST['deletearticoloid'];
         $query="DELETE FROM articolo WHERE articoloid='$articoloid'";
         $result=pg_query($dbconn,$query);
-        header('location: sharticolo.php');
+        header('location: articoliadmin.php');
     }
     if(isset($_POST['giornalistadeleteid'])){
         $articoloid=$_POST['giornalistadeleteid'];
@@ -335,6 +353,8 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         $result=pg_query($dbconn,$query);
         header('location: profilo.php');
     }
+
+
 //UPGRADE UTENTE ADMIN
 if(isset($_POST['inputidutente'])) {
     $idutente = $_POST['inputidutente'];
@@ -347,10 +367,8 @@ if(isset($_POST['inputidutente'])) {
 
     if (pg_num_rows($result) === 0) {
         // se utente non trovato mostra alert
-        echo "<script>
-            alert('Nome utente e/o ruolo non esistenti nel database');
-            window.location.href = 'upgradeutenteadmin.php';
-        </script>";
+        error_log("Nome utente e/o ruolo non esistenti nel database");
+        header('Location: Admin.php');
         exit;
     }
 
@@ -359,105 +377,276 @@ if(isset($_POST['inputidutente'])) {
     $data = pg_query_params($dbconn, $query, array($nuovoruolo, $idutente, $ruolocorrente));
 
     if ($data) {
+        error_log("Upgrade riuscito");
         header('Location: Admin.php');
         exit;
     } else {
-        echo "<script>
-            alert('Errore nell\'aggiornamento del ruolo.');
-            window.location.href = 'upgradeutente.php';
-        </script>";
+        error_log("Errore nell\'aggiornamento del ruolo.");
+        header('Location: Admin.php');
         exit;
     }
+    header('Location: Admin.php');
 }
-    //CREA ARTICOLO ADMIN    
-    if(isset($_POST['insertgiornalistaarticoloidadmin']))
-    {
-        $articoloid=$_POST['insertgiornalistaarticoloidadmin'];
-        $titolo=$_POST['inputtitolo'];
-        $contenuto=$_POST['inputcontenuto'];
-        $genere=$_POST['inputgenere'];
-        $datapubblicazione=$_POST['inputdatapubblicazione'];
-        $orariopubblicazione=$_POST['inputorariopubblicazione'];
-        $emailcreatore=$_POST['inputemailcreatore'];
-        
 
 
-        $q1 = "INSERT into articolo values ($1,$2,$3,$4,$5,$6,$7)";
-        $data = pg_query_params($dbconn, $q1,
-        array($articoloid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
-        header('location: Admin.php'); 
-    }
+
 //DELETE RICHIESTA
-if(isset($_POST['richiestericevute'])){
-    $email=$_POST['richiestericevute'];
-    $query="DELETE FROM richieste WHERE email='$email'";
-    $result=pg_query($dbconn,$query);
-    header('location: Admin.php');
+if (isset($_POST['richiestericevute'])) {                       // se non l’hai già fatto prima
+    $email  = $_POST['richiestericevute'];
+
+    // query parametrica = niente injection
+    $sql    = "DELETE FROM richieste WHERE email = $1";
+    $res    = pg_query_params($dbconn, $sql, [$email]);
+
+    $ok = $res && pg_affected_rows($res) > 0;
+
+    /* ---------- PAGINA‐PONTE ------------- */
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+        <meta charset="UTF-8">
+        <title>Redirect…</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+        <script>
+        Swal.fire({
+            icon: <?= $ok ? "'success'" : "'error'" ?>,
+            title: <?= $ok
+                        ? "'Richiesta eliminata'"
+                        : "'Errore durante l\\'eliminazione'" ?>,
+            showConfirmButton: false,
+            timer: 1800
+        }).then(() => window.location.href = 'Admin.php');
+        </script>
+    </body></html>
+    <?php
+    exit;
 }
+
+
+
 //BAN-SBAN
 if(isset($_POST['idpostban']))
-    {
-        $idpost=$_POST['idpostban'];
+{
+    $idpost=$_POST['idpostban'];
+    $query = "UPDATE utente SET banpost = 'false' WHERE email = $1";
+    $res   = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+        <meta charset="UTF-8">
+        <title>Redirect…</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+        <script>
+        Swal.fire({
+            icon: <?= $ok ? "'success'" : "'error'" ?>,
+            title: <?= $ok
+                    ? "'Ban eseguito'"
+                    : "'Errore durante l eliminazione'" ?>,
+            showConfirmButton: false,
+            timer: 1800
+        }).then(() => window.location.href = 'Admin.php');
+        </script>
+    </body></html>
+    <?php
+    exit;
+}
+if (isset($_POST['idpostsban'])) {
+    $idpost = $_POST['idpostsban'];
+    $query = "UPDATE utente SET banpost = 'false' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'SBAN dai post eseguito'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idarticoloban'])) {
+    $idpost = $_POST['idarticoloban'];
+    $query = "UPDATE utente SET banarticoli = 'true' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'BAN dagli articoli eseguito'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idarticolosban'])) {
+    $idpost = $_POST['idarticolosban'];
+    $query = "UPDATE utente SET banarticoli = 'false' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'SBAN dagli articoli eseguito'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idcommentoban'])) {
+    $idpost = $_POST['idcommentoban'];
+    $query = "UPDATE utente SET bancommenti = 'true' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'BAN dai commenti eseguito'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idcommentosban'])) {
+    $idpost = $_POST['idcommentosban'];
+    $query = "UPDATE utente SET bancommenti = 'false' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'SBAN dai commenti eseguito'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idutenteban'])) {
+    $idpost = $_POST['idutenteban'];
+    $query = "UPDATE utente SET ban = 'true' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'Utente bannato con successo'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
+if (isset($_POST['idutentesban'])) {
+    $idpost = $_POST['idutentesban'];
+    $query = "UPDATE utente SET ban = 'false' WHERE email = $1";
+    $res = pg_query_params($dbconn, $query, [$idpost]);
+    $ok = $res && pg_affected_rows($res) > 0;
+    ?>
+    <!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <title>Redirect…</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>body{margin:0;background:#f5f5f5;}</style>
+    </head><body>
+    <script>
+    Swal.fire({
+        icon: <?= $ok ? "'success'" : "'error'" ?>,
+        title: <?= $ok ? "'Utente sbannato con successo'" : "'Errore: mail non trovata'" ?>,
+        showConfirmButton: false,
+        timer: 1800
+    }).then(() => window.location.href = 'Admin.php');
+    </script>
+    </body></html>
+    <?php exit;
+}
 
-        $query = "UPDATE post SET Ban='true' WHERE postid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idpostsban']))
-    {
-        $idpost=$_POST['idpostsban'];
 
-        $query = "UPDATE post SET Ban='false' WHERE postid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idarticoloban']))
-    {
-        $idpost=$_POST['idarticoloban'];
 
-        $query = "UPDATE articolo SET Ban='true' WHERE articoloid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idarticolosban']))
-    {
-        $idpost=$_POST['idarticolosban'];
 
-        $query = "UPDATE articolo SET Ban='false' WHERE articoloid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idcommentoban']))
-    {
-        $idpost=$_POST['idcommentoban'];
 
-        $query = "UPDATE commenti SET Ban='true' WHERE commentiid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idcommentosban']))
-    {
-        $idpost=$_POST['idcommentosban'];
+// RICHIESTA GIORNALISTA
+if (isset($_POST['tokenRichiesta']) && $_POST['tokenRichiesta'] === 'true') {
 
-        $query = "UPDATE commenti SET Ban='false' WHERE commentiid='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idutenteban']))
-    {
-        $idpost=$_POST['idutenteban'];
+    $emailRichiedente = $_POST['inputemailcreatore'] ?? '';
+    $contenuto = $_POST['inputcontenuto']      ?? '';
 
-        $query = "UPDATE utente SET Ban='true' WHERE email='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
-    }
-    if(isset($_POST['idutentesban']))
-    {
-        $idpost=$_POST['idutentesban'];
+    // evita doppioni lato server
+    $check = pg_query_params($dbconn,
+        "SELECT 1 FROM richieste WHERE email = $1 LIMIT 1", [$emailRichiedente]);
 
-        $query = "UPDATE utente SET Ban='false' WHERE email='$idpost' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
+    if (pg_num_rows($check) === 0) {
+        pg_query_params($dbconn,
+            "INSERT INTO richieste (email, referenze) VALUES ($1, $2)",
+            [$emailRichiedente, $contenuto]);
     }
+
+    header('Location: profilo.php');
+    exit;
+}
+
 
 ?>

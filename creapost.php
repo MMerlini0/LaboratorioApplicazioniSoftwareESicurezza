@@ -12,6 +12,44 @@ if (!isset($_SESSION['spotify_nome']) || !isset($_SESSION['email'])) {
     header("Location: index.php");
     exit;
 }
+
+
+$nome = $_SESSION['spotify_nome'];
+$email = $_SESSION['email'];
+$query = "SELECT banpost FROM utente WHERE nome = $1 AND email = $2";
+$res = pg_query_params($dbconn, $query, [$nome, $email]);
+
+
+if ($res && pg_num_rows($res) > 0) {
+    $row = pg_fetch_assoc($res);
+    if ($row['banpost'] === 't') {
+        // L'utente è bannato dagli articoli
+        ?>
+        <!DOCTYPE html><html lang="it"><head>
+            <meta charset="UTF-8">
+            <title>Accesso Negato</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{margin:0;background:#f5f5f5;}</style>
+        </head><body>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sezione bloccata',
+                text: 'Sei stato bannato dalla creazione di post.',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => window.location.href = 'index.php');
+            </script>
+        </body></html>
+        <?php
+		exit;
+	}
+}
+
+
+
+
 ?>
 <html lang="en">
 <head>
@@ -99,6 +137,7 @@ if (!isset($_SESSION['spotify_nome']) || !isset($_SESSION['email'])) {
 		?><br><br>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA IL POST</div>
+				<input type="hidden" name="tokenPost" value="true">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
 				<input type="hidden" name=inputemailcreatore value="<?php echo $ro['email']; ?>">

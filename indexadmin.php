@@ -77,11 +77,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 		</nav>
 	</header>
 	<br>
-	<?php  if (!empty($_SESSION['spotify_token'])) { ?>
-		<div style="text-align: center;">
-                    <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Post</a>
-                </div>
-				<?php } ?>
 
 
 	<!-- parte centrale-->
@@ -144,16 +139,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 
         <!-- Azioni: Modifica/Cancella allineate a destra -->
         <div class="post-actions">
-            <?php if (!empty($_SESSION['spotify_token']) && $creatore === 'scolamierod@gmail.com') { ?>
-                <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>
                 <form action="code.php" method="POST" style="display:inline">
-                    <input type="hidden" name="utentedeleteid" value="<?php echo $row['postid']; ?>">
+                    <input type="hidden" name="deleteid" value="<?php echo $row['postid']; ?>">
                     <button type="submit" class="btn btn-danger">Cancella dati</button>
                 </form>
-            <?php } else { ?>
-                <button class="btn btn-success" disabled>Modifica dati</button>
-                <button class="btn btn-danger" disabled>Cancella dati</button>
-            <?php } ?>
         </div>
     </div>
 </div>

@@ -57,6 +57,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 		$q= "SELECT * from utente WHERE nome = $1 ";		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA POST</div>
+				<input type="hidden" name="tokenPost" value="true">
 				<input type="hidden" name="creato_da_admin" value="true">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">

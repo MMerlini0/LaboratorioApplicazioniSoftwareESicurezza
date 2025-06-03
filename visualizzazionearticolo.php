@@ -88,7 +88,9 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 							<button type="submit" class="btn btn-danger">Elimina</button>
 						<a href="creacommentoarticolo.php?utentearticoloid=<?= $row['articoloid'] ?>" class="btn btn-primary">Commenta</a></form>
 					<?php }else if(!empty($_SESSION['spotify_token'])){ ?>
-																<a href="creacommento.php?utentepostid=<?= $row['postid'] ?>" class="btn btn-primary">Commenta</a>
+						<form action="code.php" method="POST" style="display:inline;">
+						<a href="creacommentoarticolo.php?utentearticoloid=<?= $row['articoloid'] ?>" class="btn btn-primary">Commenta</a>
+						</form>
 								<?php } ?>
 					
 				</div>
@@ -118,7 +120,7 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 			<div class="post-body"><?= nl2br(htmlspecialchars($row3['contenuto'])) ?></div>
 			<div class="post-footer">
 				<div class="post-actions" style="display: flex; gap: 1rem; align-items: center;">
-					<?php if (!empty($_SESSION['spotify_token']) && $row3['utenteemail'] === $creatore) { ?>
+					<?php if (!empty($_SESSION['spotify_token']) && $row3['utenteemail'] === $_SESSION['email']) { ?>
 						<a href="edit.php?utentearticoloidcommento=<?= $row3['commentiid'] ?>" class="btn btn-success">Modifica</a>
 						<form action="code.php" method="POST" style="display:inline;">
 							<input type="hidden" name="utentedeleteidcommento" value="<?= $row3['commentiid'] ?>">

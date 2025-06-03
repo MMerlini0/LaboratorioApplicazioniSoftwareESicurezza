@@ -91,7 +91,7 @@ require '_inc/curl.class.php';
 		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA IL Commento</div>
-				<input type="hidden" name=insertutentecommentoidarticolo value="<?php echo $row['numeroid'] + rand(); ?>">
+				<input type="hidden" name="tokenCommentoArticolo" value="true">
                 <input type="hidden" name=inpututentearticoloid value="<?php echo $_GET['utentearticoloid']; ?>">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">

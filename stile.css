@@ -561,6 +561,31 @@ tr {
 	gap: 1rem;
   }
   
-  
+
+
+.site-footer{
+    width:100%;
+    margin-top:auto;                 /* lo spinge in fondo al viewport */
+    background:#fff;
+    border-top:4px solid #e5e5e5;    /* un sottile divisore grigio chiaro */
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+.site-footer .footer-inner{
+    max-width:1200px;                /* allinea al contenuto centrale */
+    margin:0 auto;
+    padding:20px 40px;
+    font-size:14px;
+    line-height:1.4;
+    color:#333;
+    text-align:center;            
+}
 
   
+
+/* colonna pulsanti */
+td.azione   { width: 130px; text-align: center; vertical-align: middle; }
+
+/* il form dentro la cella deve restare compatto */
+td.azione form { display: inline-block; margin: 0; }
+.btn-sm { padding: .25rem .75rem; font-size: .9rem; }

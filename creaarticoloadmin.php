@@ -51,7 +51,8 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA L'ARTICOLO</div>
-				<input type="hidden" name=insertgiornalistaarticoloidadmin value="<?php echo $row['numeroid'] + rand(); ?>">
+				<input type="hidden" name="tokenArticolo" value="true">
+				<input type="hidden" name="creato_da_admin" value="true">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
 				<input type="hidden" name=inputemailcreatore value="admin@admin.it">
@@ -61,14 +62,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         <p>
                             <td><label for="inputtitolo">Titolo: </label></td>
                             <td><input type="text" name="inputtitolo" id="inputtitolo" required></td>
-                        </p>
-                    </tr>
-                    <tr>
-                        <p>
-                            <td><label for="inputcontenuto">Preview: </label></td>
-                            <td><textarea type="text" name="inputcontenuto" id="inputcontenuto" required>
-				</textarea>
-							</td>
                         </p>
                     </tr>
                     <tr>

@@ -351,11 +351,11 @@ require '_inc/curl.class.php';
                     while($row = pg_fetch_array($result,NULL,PGSQL_ASSOC))
                     {?>
                 <form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;">
-                    <div class="formhead">MODIFICA DATI POST</div>
+                    <div class="formhead">MODIFICA DATI ARTICOLO</div>
                     <table style="margin-left: auto;margin-right: auto;">
                         <tr>
                             <p>
-                                <input type="hidden" name=updateutentearticoloid value="<?php echo $postid; ?>">
+                                <input type="hidden" name=updateutentearticoloid value="<?php echo $articoloid; ?>">
                                 <td><label for="titolo">titolo </label></td>
                                 <td><input type="text" name="inputtitolo" value="<?php echo $row['titolo'];?>"
                                         id="nome" required></td>
@@ -483,7 +483,7 @@ require '_inc/curl.class.php';
                             <table style="margin-left: auto;margin-right: auto;">
                                 <tr>
                                     <p>
-                                    <input type="hidden" name=updategiornalistaarticoloid value="<?php echo $articoloid; ?>">
+                                    <input type="hidden" name=updateutentearticoloid value="<?php echo $articoloid; ?>">
                                         <td><label for="titolo">titolo </label></td>
                                         <td><input type="text" name="inputtitolo" value="<?php echo $row['titolo'];?>"
                                                 id="nome" required></td>

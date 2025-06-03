@@ -7,6 +7,42 @@ $__redirect_uri ="http://localhost:3000/callback/index.php";
 $__base_url="https://accounts.spotify.com";
 $__app_url="http://localhost:3000/index.php";
 require '_inc/curl.class.php';
+
+
+$nome = $_SESSION['spotify_nome'];
+$email = $_SESSION['email'];
+$query = "SELECT bancommenti FROM utente WHERE nome = $1 AND email = $2";
+$res = pg_query_params($dbconn, $query, [$nome, $email]);
+
+
+if ($res && pg_num_rows($res) > 0) {
+    $row = pg_fetch_assoc($res);
+    if ($row['bancommenti'] === 't') {
+        // L'utente è bannato dagli articoli
+        ?>
+        <!DOCTYPE html><html lang="it"><head>
+            <meta charset="UTF-8">
+            <title>Accesso Negato</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{margin:0;background:#f5f5f5;}</style>
+        </head><body>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sezione bloccata',
+                text: 'Sei stato bannato dalla creazione di commenti.',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => window.location.href = 'index.php');
+            </script>
+        </body></html>
+        <?php
+		exit;
+	}
+}
+
+
 ?>
 <html lang="en">
 <head>
@@ -47,7 +83,7 @@ require '_inc/curl.class.php';
 						<div class="log dropdown">
 							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 							<div class="dropdown-content">
-							    <a href="articoli.php">Articoli</a>
+								<a href="articoli.php">Articoli</a>
 								<a href="profilo.php">Area Personale</a>
 								<a href="logout.php">Logout</a>
 							</div>
@@ -91,7 +127,7 @@ require '_inc/curl.class.php';
 		?>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA COMMENTO</div>
-				<input type="hidden" name=insertutentecommentoidpost value="<?php echo $row['numeroid'] + rand(); ?>">
+				<input type="hidden" name="tokenCommento" value="true">
                 <input type="hidden" name=inpututentepostid value="<?php echo $_GET['utentepostid']; ?>">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">

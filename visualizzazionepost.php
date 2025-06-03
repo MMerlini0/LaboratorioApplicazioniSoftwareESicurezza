@@ -125,8 +125,8 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 			<div class="post-card" style="min-height: auto;">
 				<div class="post-body"><?= nl2br(htmlspecialchars($row3['contenuto'])) ?></div>
 				<div class="post-footer">
-					<div class="post-actions">
-						<?php if (!empty($_SESSION['spotify_token']) && $row3['utenteemail'] === $creatore) { ?>
+					<div class="article-footer">
+						<?php if (!empty($_SESSION['spotify_token']) && $row3['utenteemail'] === $_SESSION['email']) { ?>
 							<a href="edit.php?utentepostidcommento=<?= $row3['commentiid'] ?>" class="btn btn-success">Modifica</a>
 							<form action="code.php" method="POST" style="display:inline;">
 								<input type="hidden" name="utentedeleteidcommento" value="<?= $row3['commentiid'] ?>">

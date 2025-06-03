@@ -38,9 +38,9 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
             <tr><td style="width:50%;"></td><form style="min-width:30%;margin-left: auto;margin-right: auto;">
                 <h1 style="text-align:center;" >SEZIONE BAN</h1>
 				<div style="text-align:center;">
-				<a  class=button href="BanSban.php?tipo=banP">BAN POST</a></div> <br>
-                <div style="text-align:center;"><a  class=button href="BanSban.php?tipo=banA">BAN ARTICOLI</a></div>
-				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=banC">BAN COMMENTI</a></div>
+				<a  class=button href="BanSban.php?tipo=banP">BAN DAI POST</a></div> <br>
+                <div style="text-align:center;"><a  class=button href="BanSban.php?tipo=banA">BAN DAGLI ARTICOLI</a></div>
+				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=banC">BAN DAI COMMENTI</a></div>
 				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=banU">BAN UTENTE</a></div>
 				</td>
             </form>
@@ -49,9 +49,9 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 <h1 style="text-align:center;">SEZIONE SBAN</h1>
 				<div style="text-align:center;">
 				<div style="text-align:center;">
-				<a  class=button href="BanSban.php?tipo=sbanP">SBAN POST</a></div> <br>
-                <div style="text-align:center;"><a  class=button href="BanSban.php?tipo=sbanA">SBAN ARTICOLI</a></div>
-				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=sbanC">SBAN COMMENTI</a></div>
+				<a  class=button href="BanSban.php?tipo=sbanP">SBAN DAI POST</a></div> <br>
+                <div style="text-align:center;"><a  class=button href="BanSban.php?tipo=sbanA">SBAN DAGLI ARTICOLI</a></div>
+				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=sbanC">SBAN DAI COMMENTI</a></div>
 				<br><div style="text-align:center;"><a  class=button href="BanSban.php?tipo=sbanU">SBAN UTENTE</a></div>
 
             </form>

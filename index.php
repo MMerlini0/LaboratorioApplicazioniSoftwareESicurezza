@@ -120,7 +120,7 @@ require '_inc/curl.class.php';
 	$q= "SELECT * from utente WHERE nome = $1 ";
 	$r=pg_query_params($dbconn,$q,array($nome));
 	$ro = pg_fetch_array($r,NULL,PGSQL_ASSOC);
-	if($ro['ruolo'] == 'Utente'){?>
+	if($ro['ruolo'] == 'Utente' || $ro['ruolo'] == 'Giornalista'){?>
 		<div style="text-align: center;">
                     <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Post</a>
                 </div>
@@ -132,14 +132,13 @@ require '_inc/curl.class.php';
 		<form style="margin-top: -15px; display: flex; justify-content: space-between; align-items: center;" action="index.php" method="POST">
 			<h3 style="margin: 0; margin-right: auto;">Genere</h3>
 			<div style="display: flex; align-items: center; margin-left: auto;">
-				<select name="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
-  <option value="Pop">Pop</option>
-  <option value="Hip Hop / Rap">Hip Hop / Rap</option>  
-  <option value="Rock">Rock</option>  
-  <option value="EDM (Electronic Dance Music)">EDM (Electronic Dance Music)</option>  
-  <option value="Reggaeton / Latin">Reggaeton / Latin</option>  
-</select>
-
+				<select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
+					<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
+				</select>
 				<button type="submit" class="btn btn-danger" style="margin-left: 10px;">Applica</button>
 			</div>
 		</form>
