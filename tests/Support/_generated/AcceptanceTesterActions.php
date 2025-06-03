@@ -1,4 +1,4 @@
-<?php  //[STAMP] c8cbf209822a7b8d38cab59ae18032df
+<?php  //[STAMP] ad9bc0d8b39fc30731d591d41064667f
 // phpcs:ignoreFile
 namespace Tests\Support\_generated;
 
@@ -4421,5 +4421,644 @@ trait AcceptanceTesterActions
         $retryNum      = $this->retryNum ?? 1;
         $retryInterval = $this->retryInterval ?? 200;
         return $this->getScenario()->runStep(new \Codeception\Step\Retry('setMaxRedirects', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Make sure you are connected to the right database.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(2, 'users');   //executed on default database
+     * $I->amConnectedToDatabase('db_books');
+     * $I->seeNumRecords(30, 'books');  //executed on db_books database
+     * //All the next queries will be on db_books
+     * ```
+     *
+     * @throws ModuleConfigException
+     * @see \Codeception\Module\Db::amConnectedToDatabase()
+     */
+    public function amConnectedToDatabase(string $databaseKey): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Condition('amConnectedToDatabase', func_get_args()));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Can be used with a callback if you don't want to change the current database in your test.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(2, 'users');   //executed on default database
+     * $I->performInDatabase('db_books', function($I) {
+     *     $I->seeNumRecords(30, 'books');  //executed on db_books database
+     * });
+     * $I->seeNumRecords(2, 'users');  //executed on default database
+     * ```
+     * List of actions can be pragmatically built using `Codeception\Util\ActionSequence`:
+     *
+     * ```php
+     * <?php
+     * $I->performInDatabase('db_books', ActionSequence::build()
+     *     ->seeNumRecords(30, 'books')
+     * );
+     * ```
+     * Alternatively an array can be used:
+     *
+     * ```php
+     * $I->performInDatabase('db_books', ['seeNumRecords' => [30, 'books']]);
+     * ```
+     *
+     * Choose the syntax you like the most and use it,
+     *
+     * Actions executed from array or ActionSequence will print debug output for actions, and adds an action name to
+     * exception on failure.
+     *
+     * @param $databaseKey
+     * @param ActionSequence|array|callable $actions
+     * @throws ModuleConfigException
+     * @see \Codeception\Module\Db::performInDatabase()
+     */
+    public function performInDatabase($databaseKey, $actions): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('performInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Test won't be stopped on fail. Error won't be logged 
+     * Can be used with a callback if you don't want to change the current database in your test.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(2, 'users');   //executed on default database
+     * $I->performInDatabase('db_books', function($I) {
+     *     $I->seeNumRecords(30, 'books');  //executed on db_books database
+     * });
+     * $I->seeNumRecords(2, 'users');  //executed on default database
+     * ```
+     * List of actions can be pragmatically built using `Codeception\Util\ActionSequence`:
+     *
+     * ```php
+     * <?php
+     * $I->performInDatabase('db_books', ActionSequence::build()
+     *     ->seeNumRecords(30, 'books')
+     * );
+     * ```
+     * Alternatively an array can be used:
+     *
+     * ```php
+     * $I->performInDatabase('db_books', ['seeNumRecords' => [30, 'books']]);
+     * ```
+     *
+     * Choose the syntax you like the most and use it,
+     *
+     * Actions executed from array or ActionSequence will print debug output for actions, and adds an action name to
+     * exception on failure.
+     *
+     * @param $databaseKey
+     * @param ActionSequence|array|callable $actions
+     * @throws ModuleConfigException
+     * @see \Codeception\Module\Db::performInDatabase()
+     */
+    public function tryToPerformInDatabase($databaseKey, $actions): bool {
+        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('performInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes performInDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::performInDatabase()
+     */
+    public function retryPerformInDatabase($databaseKey, $actions) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('performInDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Inserts an SQL record into a database. This record will be erased after the test,
+     * unless you've configured "skip_cleanup_if_failed", and the test fails.
+     *
+     * ```php
+     * <?php
+     * $I->haveInDatabase('users', ['name' => 'miles', 'email' => 'miles@davis.com']);
+     * ```
+     * @see \Codeception\Module\Db::haveInDatabase()
+     */
+    public function haveInDatabase(string $table, array $data): int {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('haveInDatabase', func_get_args()));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a row with the given column values exists.
+     * Provide table name and column values.
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if no such user found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->seeInDatabase('users', ['email like' => 'miles@davis.com']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::seeInDatabase()
+     */
+    public function seeInDatabase(string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Conditional Assertion: Test won't be stopped on fail
+     * Asserts that a row with the given column values exists.
+     * Provide table name and column values.
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if no such user found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->seeInDatabase('users', ['email like' => 'miles@davis.com']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::seeInDatabase()
+     */
+    public function canSeeInDatabase(string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Test won't be stopped on fail. Error won't be logged 
+     * Asserts that a row with the given column values exists.
+     * Provide table name and column values.
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if no such user found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->seeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->seeInDatabase('users', ['email like' => 'miles@davis.com']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::seeInDatabase()
+     */
+    public function tryToSeeInDatabase(string $table, array $criteria = []): bool {
+        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes seeInDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::seeInDatabase()
+     */
+    public function retrySeeInDatabase(string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the given number of records were found in the database.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(1, 'users', ['name' => 'davert'])
+     * ```
+     *
+     * @param int $expectedNumber Expected number
+     * @param string $table Table name
+     * @param array $criteria Search criteria [Optional]
+     * @see \Codeception\Module\Db::seeNumRecords()
+     */
+    public function seeNumRecords(int $expectedNumber, string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeNumRecords', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Conditional Assertion: Test won't be stopped on fail
+     * Asserts that the given number of records were found in the database.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(1, 'users', ['name' => 'davert'])
+     * ```
+     *
+     * @param int $expectedNumber Expected number
+     * @param string $table Table name
+     * @param array $criteria Search criteria [Optional]
+     * @see \Codeception\Module\Db::seeNumRecords()
+     */
+    public function canSeeNumRecords(int $expectedNumber, string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeNumRecords', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Test won't be stopped on fail. Error won't be logged 
+     * Asserts that the given number of records were found in the database.
+     *
+     * ```php
+     * <?php
+     * $I->seeNumRecords(1, 'users', ['name' => 'davert'])
+     * ```
+     *
+     * @param int $expectedNumber Expected number
+     * @param string $table Table name
+     * @param array $criteria Search criteria [Optional]
+     * @see \Codeception\Module\Db::seeNumRecords()
+     */
+    public function tryToSeeNumRecords(int $expectedNumber, string $table, array $criteria = []): bool {
+        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeNumRecords', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes seeNumRecords and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::seeNumRecords()
+     */
+    public function retrySeeNumRecords(int $expectedNumber, string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeNumRecords', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Effect is opposite to ->seeInDatabase
+     *
+     * Asserts that there is no record with the given column values in a database.
+     * Provide table name and column values.
+     *
+     * ``` php
+     * <?php
+     * $I->dontSeeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if such user was found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->dontSeeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->dontSeeInDatabase('users', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::dontSeeInDatabase()
+     */
+    public function dontSeeInDatabase(string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('dontSeeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Conditional Assertion: Test won't be stopped on fail
+     * Effect is opposite to ->seeInDatabase
+     *
+     * Asserts that there is no record with the given column values in a database.
+     * Provide table name and column values.
+     *
+     * ``` php
+     * <?php
+     * $I->dontSeeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if such user was found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->dontSeeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->dontSeeInDatabase('users', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::dontSeeInDatabase()
+     */
+    public function cantSeeInDatabase(string $table, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Test won't be stopped on fail. Error won't be logged 
+     * Effect is opposite to ->seeInDatabase
+     *
+     * Asserts that there is no record with the given column values in a database.
+     * Provide table name and column values.
+     *
+     * ``` php
+     * <?php
+     * $I->dontSeeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
+     * ```
+     * Fails if such user was found.
+     *
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $I->dontSeeInDatabase('posts', ['num_comments >=' => '0']);
+     * $I->dontSeeInDatabase('users', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     * @see \Codeception\Module\Db::dontSeeInDatabase()
+     */
+    public function tryToDontSeeInDatabase(string $table, array $criteria = []): bool {
+        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes dontSeeInDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::dontSeeInDatabase()
+     */
+    public function retryDontSeeInDatabase(string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Fetches all values from the column in database.
+     * Provide table name, desired column and criteria.
+     *
+     * ``` php
+     * <?php
+     * $mails = $I->grabColumnFromDatabase('users', 'email', ['name' => 'RebOOter']);
+     * ```
+     * @see \Codeception\Module\Db::grabColumnFromDatabase()
+     */
+    public function grabColumnFromDatabase(string $table, string $column, array $criteria = []): array {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('grabColumnFromDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes grabColumnFromDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::grabColumnFromDatabase()
+     */
+    public function retryGrabColumnFromDatabase(string $table, string $column, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabColumnFromDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Fetches a single column value from a database.
+     * Provide table name, desired column and criteria.
+     *
+     * ``` php
+     * <?php
+     * $mail = $I->grabFromDatabase('users', 'email', ['name' => 'Davert']);
+     * ```
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $postNum = $I->grabFromDatabase('posts', 'num_comments', ['num_comments >=' => 100]);
+     * $mail = $I->grabFromDatabase('users', 'email', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     *
+     * @return mixed Returns a single column value or false
+     * @see \Codeception\Module\Db::grabFromDatabase()
+     */
+    public function grabFromDatabase(string $table, string $column, array $criteria = []) {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('grabFromDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes grabFromDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::grabFromDatabase()
+     */
+    public function retryGrabFromDatabase(string $table, string $column, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabFromDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Fetches a whole entry from a database.
+     * Make the test fail if the entry is not found.
+     * Provide table name, desired column and criteria.
+     *
+     * ``` php
+     * <?php
+     * $mail = $I->grabEntryFromDatabase('users', ['name' => 'Davert']);
+     * ```
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $post = $I->grabEntryFromDatabase('posts', ['num_comments >=' => 100]);
+     * $user = $I->grabEntryFromDatabase('users', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     *
+     * @return array Returns a single entry value
+     * @throws PDOException|Exception
+     * @see \Codeception\Module\Db::grabEntryFromDatabase()
+     */
+    public function grabEntryFromDatabase(string $table, array $criteria = []): array {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('grabEntryFromDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes grabEntryFromDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::grabEntryFromDatabase()
+     */
+    public function retryGrabEntryFromDatabase(string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabEntryFromDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Fetches a set of entries from a database.
+     * Provide table name and criteria.
+     *
+     * ``` php
+     * <?php
+     * $mail = $I->grabEntriesFromDatabase('users', ['name' => 'Davert']);
+     * ```
+     * Comparison expressions can be used as well:
+     *
+     * ```php
+     * <?php
+     * $post = $I->grabEntriesFromDatabase('posts', ['num_comments >=' => 100]);
+     * $user = $I->grabEntriesFromDatabase('users', ['email like' => 'miles%']);
+     * ```
+     *
+     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
+     *
+     * @return array<array<string, mixed>> Returns an array of all matched rows
+     * @throws PDOException|Exception
+     * @see \Codeception\Module\Db::grabEntriesFromDatabase()
+     */
+    public function grabEntriesFromDatabase(string $table, array $criteria = []): array {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('grabEntriesFromDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes grabEntriesFromDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::grabEntriesFromDatabase()
+     */
+    public function retryGrabEntriesFromDatabase(string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabEntriesFromDatabase', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Returns the number of rows in a database
+     *
+     * @param string $table    Table name
+     * @param array  $criteria Search criteria [Optional]
+     * @return int
+     * @see \Codeception\Module\Db::grabNumRecords()
+     */
+    public function grabNumRecords(string $table, array $criteria = []): int {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('grabNumRecords', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes grabNumRecords and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::grabNumRecords()
+     */
+    public function retryGrabNumRecords(string $table, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabNumRecords', func_get_args(), $retryNum, $retryInterval));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Update an SQL record into a database.
+     *
+     * ```php
+     * <?php
+     * $I->updateInDatabase('users', ['isAdmin' => true], ['email' => 'miles@davis.com']);
+     * ```
+     * @see \Codeception\Module\Db::updateInDatabase()
+     */
+    public function updateInDatabase(string $table, array $data, array $criteria = []): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('updateInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * [!] Test won't be stopped on fail. Error won't be logged 
+     * Update an SQL record into a database.
+     *
+     * ```php
+     * <?php
+     * $I->updateInDatabase('users', ['isAdmin' => true], ['email' => 'miles@davis.com']);
+     * ```
+     * @see \Codeception\Module\Db::updateInDatabase()
+     */
+    public function tryToUpdateInDatabase(string $table, array $data, array $criteria = []): bool {
+        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('updateInDatabase', func_get_args()));
+    }
+    /**
+     * [!] Method is generated.
+     *
+     * * Executes updateInDatabase and retries on failure.
+     *
+     * Retry number and interval set by $I->retry();
+     *
+     * @see \Codeception\Module\Db::updateInDatabase()
+     */
+    public function retryUpdateInDatabase(string $table, array $data, array $criteria = []) {
+        $retryNum      = $this->retryNum ?? 1;
+        $retryInterval = $this->retryInterval ?? 200;
+        return $this->getScenario()->runStep(new \Codeception\Step\Retry('updateInDatabase', func_get_args(), $retryNum, $retryInterval));
     }
 }

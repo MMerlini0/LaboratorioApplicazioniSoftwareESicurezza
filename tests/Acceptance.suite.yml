@@ -8,6 +8,13 @@ modules:
     enabled:
         - PhpBrowser:
             url: http://localhost:3000
+        - Db:
+            dsn: 'pgsql:host=localhost;dbname=Untuned'
+            user: 'postgres'
+            password: 'biar'
+            cleanup: false
+            populate: false
+
 # Add Codeception\Step\Retry trait to AcceptanceTester to enable retries
 step_decorators:
     - Codeception\Step\ConditionalAssertion
