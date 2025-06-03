@@ -39,7 +39,7 @@ if (isset($user_info->email)) {
     $_SESSION['email'] = $user_info->email;
 }
 
-//error_log('user_info->email esiste? ' . (isset($user_info->email) ? 'SI' : 'NO'));
+error_log('user_info->email esiste? ' . (isset($user_info->email) ? 'SI' : 'NO'));
 
 if (isset($user_info->id)) {
     $_SESSION['spotify_id'] = $user_info->id;
@@ -97,6 +97,7 @@ if ($email !== null) {
             $c1, $c2, $c3,
             $a1, $a2, $a3
         ));
+        echo($q_insert);
 
         if (!$insert) {
             error_log("Fallita registrazione utente Spotify: " . pg_last_error($dbconn));

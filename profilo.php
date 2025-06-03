@@ -87,11 +87,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                             <tr>
                                 <th>Nome a schermo</th>
                                 <th>ID spotify</th>
+                                <th>Email spotify</th>
                             </tr>
                         </thead>
                         <tbody>
                             <td><?= $_SESSION['spotify_nome']; ?></td>
                             <td><?= $nome_user->id; ?></td>
+                            <td><?= $_SESSION['email']?></td>
                         </tbody>
                     </table>
                 </div>
@@ -147,7 +149,7 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 <table hidden="hidden" class="table table-bordered"> <?php 
                 $nome=$_SESSION['spotify_nome'];
                     $query ="SELECT * FROM post WHERE emailcreatore =(SELECT email from utente WHERE nome='$nome') ";
-                    $result=pg_query($query);
+                    $result=pg_query($dbconn, $query);
                     $check=pg_num_rows($result); ?>
                     <tbody>
                     <?php
@@ -212,13 +214,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 <table hidden="hidden" class="table table-bordered"> <?php 
                 $nome=$_SESSION['spotify_nome'];
                     $query ="SELECT * FROM articolo WHERE emailcreatore =(SELECT email from utente WHERE nome='$nome') ";
-                    $result=pg_query($query);
+                    $result=pg_query($dbconn, $query);
                     $check=pg_num_rows($result); ?>
                     <tbody>
                     <?php
                 if($check >0){
                     while ($row = pg_fetch_array($result)){
-                          ?>
+                        ?>
                                     <tr box >
                                         <td class="name"><?php echo $row['titolo']; ?></td>
                                         <td><?php echo $row['contenuto']; ?></td>

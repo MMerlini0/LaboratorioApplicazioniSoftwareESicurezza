@@ -70,7 +70,7 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 	<h1 style="text-align:center;color:black;">ID ARTICOLO: #<?= $articoloid ?></h1>
 	<?php
 	$query = "SELECT * FROM articolo WHERE articoloid = $articoloid ORDER BY datapubblicazione";
-	$result = pg_query($query);
+	$result = pg_query($dbconn, $query);
 	$check = pg_num_rows($result);
 	if ($check > 0) {
 		while ($row = pg_fetch_array($result)) {

@@ -1,0 +1,5 @@
+actor: FunctionalTester
+suite_namespace: Tests\Functional
+modules:
+    # enable helpers as array
+    enabled: []

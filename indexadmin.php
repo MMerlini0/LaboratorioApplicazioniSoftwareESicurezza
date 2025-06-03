@@ -54,21 +54,21 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from post WHERE genere='$generefiltro' and ban='false' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from post WHERE titolo LIKE '%$filtervalues%' and ban='false'' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from post WHERE genere='$generefiltro' and ban='false' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from post WHERE ban='false' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}}
 
 			if (!isset($_SESSION['ruolo'])){

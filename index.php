@@ -80,32 +80,32 @@ require '_inc/curl.class.php';
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from post WHERE genere='$generefiltro' and ban='false' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from post WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}
 			}else if(isset($_GET['email'])){
 			$filtervalues = $_GET['email'];
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from post WHERE genere='$generefiltro' and emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from post WHERE emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from post WHERE genere='$generefiltro' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from post  ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}}
 
 			if (!isset($_SESSION['ruolo'])){

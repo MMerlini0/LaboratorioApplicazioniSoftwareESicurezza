@@ -45,7 +45,7 @@ require '_inc/curl.class.php';
 		</header>
 			<?php
 			$query ="SELECT * from richieste";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result); ?>
 	<br>
 

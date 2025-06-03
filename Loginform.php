@@ -65,7 +65,7 @@
 			'&show_dialog=true';
         // Debug
         console.log(logInUri);
-        
+        console.log('pippo')
         // Open URL to request user log in from Spotify
         window.open(logInUri, '_self');
     }

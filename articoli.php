@@ -68,32 +68,32 @@ require '_inc/curl.class.php';
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from articolo WHERE genere='$generefiltro' titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from articolo WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}
 			}else if(isset($_GET['email'])){
 			$filtervalues = $_GET['email'];
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from articolo WHERE genere='$generefiltro' and emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from articolo WHERE emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
 				$query ="SELECT * from articolo WHERE genere='$generefiltro' ORDER BY  datapubblicazione ";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);
 			}else{
 			$query ="SELECT * from articolo  ORDER BY  datapubblicazione";
-			$result=pg_query($query);
+			$result=pg_query($dbconn, $query);
 			$check=pg_num_rows($result);}} ?>
 		</nav>
 	</header>
