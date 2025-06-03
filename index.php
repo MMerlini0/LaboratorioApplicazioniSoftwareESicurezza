@@ -165,7 +165,6 @@ require '_inc/curl.class.php';
             <span class="email"><?php echo htmlspecialchars($creatore, ENT_QUOTES, 'UTF-8'); ?></span>
         </div>
 
-        <!-- Azioni: Modifica/Cancella allineate a destra -->
         <div class="post-actions">
             <?php if (!empty($_SESSION['spotify_token']) && $creatore === 'scolamierod@gmail.com') { ?>
                 <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>

@@ -34,3 +34,5 @@ $_SESSION['spotify_token'] = $used_token_data;
 // Store user token in Session
 
 header("Location: $__app_url");
+
+?>

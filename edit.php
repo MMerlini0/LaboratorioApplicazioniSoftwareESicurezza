@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <?php session_start();
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
+$__app_secret = "a76619b8bddd432b9248fa0be1d4ce3a";
+$__app_client_id = "05a4f7e97e5f4fd9bd130d40feb97392";
+$__redirect_uri ="http://localhost:3000/callback/index.php";
+$__base_url="https://accounts.spotify.com";
+$__app_url="http://localhost:3000/index.php";
+require '_inc/curl.class.php';
+
 ?><html lang="en">
 
 <head>
@@ -24,13 +31,33 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
     <header class="topnav">
 			<nav>
 			<a class="titolo" >Untuned</a>
+                <!-- TEST PER METTERE IL NOME -->
+                <?php 
+                    $__cURL = new CurlServer();
+                    $nome = 'https://api.spotify.com/v1/me';
+                    $nome_user = $__cURL->get_request($nome, $_SESSION['spotify_token']->access_token);
+                    $_SESSION['spotify_nome'] = $nome_user->display_name;
+                ?>
+				<?php if (
+                            isset($_GET['utentepostidcommento']) ||
+                            isset($_GET['utentearticoloidcommento']) ||
+                            isset($_GET['utentepostid']) ||
+                            isset($_GET['utentearticoloid']) ||
+                            isset($_GET['giornalistaarticoloid'])
+                        )  { ?>
+					<div class="log dropdown">
+						<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
+					</div>
+					<a class=" center" href="index.php">Home</a>
+				<?php } else { ?>
 					<div class="log dropdown">
 						<button class="dropbtn">Admin</button>
 					</div>
-				<a class=" center" href="Admin.php">Area Admin</a>
+					<a class=" center" href="Admin.php">Area Admin</a>
+				<?php } ?>
 				<a href="logout.php" style="margin-right: 1%;">  Logout</a>
 			</nav>
-		</header>
+    </header>
 
     <body>
 
@@ -126,8 +153,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                         <tr>
                             <p>
                                 <td><label for="genere">genere</label></td>
-                                <td><input type="text" name="inputgenere" value="<?php echo $row['genere'];?>"
-                                        id="nome" required></td>
+                                <td>
+                                    <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
+                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
+                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
+                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                    </select>
+                                </td>
                             </p>
                         </tr>
                         <tr>
@@ -289,8 +321,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                         <tr>
                             <p>
                                 <td><label for="genere">genere</label></td>
-                                <td><input type="text" name="inputgenere" value="<?php echo $row['genere'];?>"
-                                        id="nome" required></td>
+                                <td>
+                                    <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
+                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
+                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
+                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                    </select>
+                                </td>
                             </p>
                         </tr>
                     </table>
@@ -334,8 +371,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                         <tr>
                             <p>
                                 <td><label for="genere">genere</label></td>
-                                <td><input type="text" name="inputgenere" value="<?php echo $row['genere'];?>"
-                                        id="nome" required></td>
+                                <td>
+                                    <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
+                                        <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
+                                        <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
+                                        <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                    </select>
+                                </td>
                             </p>
                         </tr>
                     </table>
@@ -387,8 +429,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                                 <tr>
                                     <p>
                                         <td><label for="genere">genere</label></td>
-                                        <td><input type="text" name="inputgenere" value="<?php echo $row['genere'];?>"
-                                                id="nome" required></td>
+                                        <td>
+                                            <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
+                                                <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
+                                                <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
+                                                <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                            </select>
+                                        </td>
                                     </p>
                                 </tr>
                                 <tr>
@@ -452,8 +499,13 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                                 <tr>
                                     <p>
                                         <td><label for="genere">genere</label></td>
-                                        <td><input type="text" name="inputgenere" value="<?php echo $row['genere'];?>"
-                                                id="nome" required></td>
+                                        <td>
+                                            <select name="inputgenere" id="nome" style="width: 100%; font-size: 1rem; padding: 8px;" required>
+                                                <option value="Genere 1" <?= $row['genere'] == 'Genere 1' ? 'selected' : '' ?>>Genere 1</option>
+                                                <option value="Genere 2" <?= $row['genere'] == 'Genere 2' ? 'selected' : '' ?>>Genere 2</option>
+                                                <option value="Genere 3" <?= $row['genere'] == 'Genere 3' ? 'selected' : '' ?>>Genere 3</option>
+                                            </select>
+                                        </td>
                                     </p>
                                 </tr>
                             </table>
