@@ -1,0 +1,1 @@
+{"version":1,"defects":{"ProfiloPageTest::testProfiloPageShowsUserInfo":7},"times":{"FilterUnitTest::testFilterByGenre":0.001,"SessionUserTest::testUserSessionData":0,"FilterLogicTest::testFilterReturnsOnlyPopPosts":0.056,"ProfiloPageTest::testProfiloPageShowsUserInfo":0.006}}

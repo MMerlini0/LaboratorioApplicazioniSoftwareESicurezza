@@ -1,14 +1,21 @@
 {
-    "name": "liodi/untuned2.4",
+    "name": "scola/untuned2.6",
     "autoload": {
         "psr-4": {
-            "Liodi\\Untuned24\\": "src/"
+            "Scola\\Untuned26\\": "src/"
         }
     },
+    "authors": [
+        {
+            "name": "DavideScolam",
+            "email": "scolamierod@gmail.com"
+        }
+    ],
     "require-dev": {
         "codeception/codeception": "^5.3",
         "codeception/module-phpbrowser": "^3.0",
         "codeception/module-asserts": "^3.2",
-        "codeception/module-db": "^3.2"
+        "codeception/module-db": "^3.2",
+        "phpunit/phpunit": "^11.5"
     }
 }
