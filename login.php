@@ -23,14 +23,14 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 $result = pg_query_params($dbconn, $q1, array($email));
                 if (!($tuple=pg_fetch_array($result, null, PGSQL_ASSOC))) {
                     ?>
-                    	<!-- Messaggio di errore -->
+                        <!-- Messaggio di errore -->
                     <script >
                     Swal.fire({
-  title: "<strong>Errore nell'accesso</strong>",
-  icon: "error",
-  html: `<b>Non sembra che ti sia registrato</b>`,
-  focusConfirm: false,
-  confirmButtonText: `Registrati!`
+    title: "<strong>Errore nell'accesso</strong>",
+    icon: "error",
+    html: `<b>Non sembra che ti sia registrato</b>`,
+    focusConfirm: false,
+    confirmButtonText: `Registrati!`
 }).then(function() {
     window.location = "Register.html";
 });
@@ -45,12 +45,11 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                         ?>
                     <script >
                     Swal.fire({
-  title: "<strong>Errore nell'accesso</strong>",
-  icon: "error",
-  html: `<b>La password e' sbagliata!</b>`,
-  focusConfirm: false,
-  confirmButtonText:'Riprova!'
-  
+    title: "<strong>Errore nell'accesso</strong>",
+    icon: "error",
+    html: `<b>La password e' sbagliata!</b>`,
+    focusConfirm: false,
+    confirmButtonText:'Riprova!'
 }).then(function() {
     window.location = "LoginAdmin.php";
 });;

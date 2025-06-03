@@ -50,7 +50,7 @@ require '_inc/curl.class.php';
 						<div class="log dropdown">
 							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 							<div class="dropdown-content">
-							    <a href="articoli.php">Articoli</a>
+								<a href="articoli.php">Articoli</a>
 								<a href="profilo.php">Area Personale</a>
 								<a href="logout.php">Logout</a>
 							</div>
@@ -94,7 +94,6 @@ require '_inc/curl.class.php';
 		?><br><br>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA IL POST</div>
-				<input type="hidden" name=insertutentepostid value="<?php echo $row['numeroid'] + 69; ?>">
 				<input type="hidden" name=inputorariopubblicazione value="<?php echo $ora; ?>">
 				<input type="hidden" name=inputdatapubblicazione value="<?php echo $data; ?>">
 				<input type="hidden" name=inputemailcreatore value="<?php echo $ro['email']; ?>">

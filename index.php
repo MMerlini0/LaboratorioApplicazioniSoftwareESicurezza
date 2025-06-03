@@ -186,7 +186,7 @@ require '_inc/curl.class.php';
         </div>
 
         <div class="post-actions">
-            <?php if (!empty($_SESSION['spotify_token']) && $creatore === 'scolamierod@gmail.com') { ?>
+            <?php if (!empty($_SESSION['email']) && $_SESSION['email'] === $creatore) { ?>
                 <a href="edit.php?utentepostid=<?php echo $row['postid']; ?>" class="btn btn-success">Modifica dati</a>
                 <form action="code.php" method="POST" style="display:inline">
                     <input type="hidden" name="utentedeleteid" value="<?php echo $row['postid']; ?>">

@@ -3,62 +3,70 @@
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
 
 //Controlli su diversi valori inviati da un form della fase di inserimento nella pagina insert.php
-    if(isset($_POST['insertnome']))
-    {
-        $email=$_POST['inputemail'];
-        $nome=$_POST['insertnome'];
-        $ruolo=$_POST['inputruolo'];
-        $paswd=$_POST['inputpassword'];
-        $id=$_POST['inputidspotify'];
-        $canzone1=$_POST['inputcanzone1'];
-        $canzone2=$_POST['inputcanzone2'];
-        $canzone3=$_POST['inputcanzone3'];
-        $artista1=$_POST['inputartista1'];
-        $artista2=$_POST['inputartista2'];
-        $artista3=$_POST['inputartista3'];
-        
+if(isset($_POST['insertnome']))
+{
+    $email=$_POST['inputemail'];
+    $nome=$_POST['insertnome'];
+    $ruolo=$_POST['inputruolo'];
+    $paswd=$_POST['inputpassword'];
+    $id=$_POST['inputidspotify'];
+    $canzone1=$_POST['inputcanzone1'];
+    $canzone2=$_POST['inputcanzone2'];
+    $canzone3=$_POST['inputcanzone3'];
+    $artista1=$_POST['inputartista1'];
+    $artista2=$_POST['inputartista2'];
+    $artista3=$_POST['inputartista3'];
+
+    $q2 = "INSERT into utente values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)";
+    $data = pg_query_params($dbconn, $q2,
+    array($email, $nome, $paswd, $ruolo, $id, $canzone1 ,$canzone2,$canzone3,$artista1,$artista2,$artista3));
+    header('location: admin.php');
+}
 
 
-        $q2 = "INSERT into utente values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)";
-        $data = pg_query_params($dbconn, $q2,
-        array($email, $nome, $paswd, $ruolo, $id, $canzone1 ,$canzone2,$canzone3,$artista1,$artista2,$artista3));
-        header('location: admin.php');
-    }
+if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_POST['inputemailcreatore']))
+{
+    //CREA POST ADMIN
+    if (isset($_POST['creato_da_admin']) && $_POST['creato_da_admin'] === "true") {
+        $titolo = $_POST['inputtitolo'];
+        $contenuto = $_POST['inputcontenuto'];
+        $genere = $_POST['inputgenere'];
+        $datapubblicazione = $_POST['inputdatapubblicazione'];
+        $orariopubblicazione = $_POST['inputorariopubblicazione'];
+        $emailcreatore = $_POST['inputemailcreatore'];
 
-    if(isset($_POST['insertid']))
-    {
-        $postid=$_POST['insertid'];
+        $q1 = "INSERT INTO post (titolo, contenuto, genere, datapubblicazione, orariopubblicazione, emailcreatore)
+            VALUES ($1, $2, $3, $4, $5, $6)";
+        $data = pg_query_params($dbconn, $q1, array(
+            $titolo, $contenuto, $genere, $datapubblicazione, $orariopubblicazione, $emailcreatore
+        ));
+
+        if (!$data) {
+            error_log("Errore nella query post admin: " . pg_last_error($dbconn));
+            exit("Errore nella creazione del post.");
+        }
+
+        header('Location: Admin.php');
+        exit;
+    } else { 
         $titolo=$_POST['inputtitolo'];
         $contenuto=$_POST['inputcontenuto'];
         $genere=$_POST['inputgenere'];
         $datapubblicazione=$_POST['inputdatapubblicazione'];
         $orariopubblicazione=$_POST['inputorariopubblicazione'];
         $emailcreatore=$_POST['inputemailcreatore'];
-        
 
-
-        $q1 = "INSERT into post values ($1,$2,$3,$4,$5,$6,$7)";
+        $q1 = "INSERT INTO post (titolo, contenuto, genere, datapubblicazione, orariopubblicazione, emailcreatore)
+                VALUES ($1, $2, $3, $4, $5, $6)";
         $data = pg_query_params($dbconn, $q1,
-            array($postid, $titolo,$contenuto,$genere,$datapubblicazione,$emailcreatore,$orariopubblicazione));
-            header('location: admin.php');
+            array($titolo, $contenuto, $genere, $datapubblicazione, $orariopubblicazione, $emailcreatore));
+        if (!$data) {
+            error_log("Errore nella query: " . pg_last_error($dbconn));
+            exit;
+        }
+        header('location: index.php');
     }
-    if(isset($_POST['insertutentepostid']))
-    {
-        $postid=$_POST['insertutentepostid'];
-        $titolo=$_POST['inputtitolo'];
-        $contenuto=$_POST['inputcontenuto'];
-        $genere=$_POST['inputgenere'];
-        $datapubblicazione=$_POST['inputdatapubblicazione'];
-        $orariopubblicazione=$_POST['inputorariopubblicazione'];
-        $emailcreatore=$_POST['inputemailcreatore'];
-        
-
-
-        $q1 = "INSERT into post values ($1,$2,$3,$4,$5,$6,$7)";
-        $data = pg_query_params($dbconn, $q1,
-            array($postid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
-            header('location: index.php');
-    }
+}
     if(isset($_POST['insertutentecommentoidpost']))
     {
         $commentiid=$_POST['insertutentecommentoidpost'];
@@ -337,24 +345,6 @@ if(isset($_POST['inputidutente']))
         $query = "UPDATE utente SET ruolo='$nuovoruolo' WHERE nome='$idutente' and ruolo='$ruolocorrente' ";
         pg_query($dbconn,$query);
         header('location: Admin.php');
-    }
-    //CREA POST ADMIN
-    if(isset($_POST['insertutentepostidadmin']))
-    {
-        $postid=$_POST['insertutentepostidadmin'];
-        $titolo=$_POST['inputtitolo'];
-        $contenuto=$_POST['inputcontenuto'];
-        $genere=$_POST['inputgenere'];
-        $datapubblicazione=$_POST['inputdatapubblicazione'];
-        $orariopubblicazione=$_POST['inputorariopubblicazione'];
-        $emailcreatore=$_POST['inputemailcreatore'];
-        
-
-
-        $q1 = "INSERT into post values ($1,$2,$3,$4,$5,$6,$7)";
-        $data = pg_query_params($dbconn, $q1,
-            array($postid, $titolo,$contenuto,$genere,$datapubblicazione,$orariopubblicazione,$emailcreatore));
-            header('location: Admin.php');
     }
     //CREA ARTICOLO ADMIN    
     if(isset($_POST['insertgiornalistaarticoloidadmin']))

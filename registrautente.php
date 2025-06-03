@@ -10,7 +10,7 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 ?>
 <!DOCTYPE html>
 <html>
-    	<!-- Barra superiore-->
+    <!-- Barra superiore-->
     <head>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +61,7 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                         array($email, $nome, $paswd, $ruolo, $id, $canzone1 ,$canzone2,$canzone3,$artista1,$artista2,$artista3));
                     if ($data) {
                         ?>
-                    	<!-- Messaggio di successo -->                      
+                    <!-- Messaggio di successo -->                      
                     <script >
                     Swal.fire({
   title: "<strong>I tuoi dati sono stati registrati correttamente</strong>",

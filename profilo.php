@@ -97,49 +97,42 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 </div>
             </form>
         </div>
-        <div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;padding:16px;">
-            <h1 style="text-align:center;">Statistiche profilo</h1>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm" style="text-align:center;">
-                        <h2>Top 3 canzoni:</h2>
-                        <?php  
-                        $_SESSION['canzoni'] = [];
-                        $req_url = 'https://api.spotify.com/v1/me/top/tracks';
-                        $top_user_tracks = $__cURL->get_request($req_url, $_SESSION['spotify_token']->access_token);
-                        foreach ($top_user_tracks as $content_value) {
-                            if (is_array($content_value)) {
-                                foreach ($content_value as $value) {
-                                    $_SESSION['canzoni'][] = $value->id;
-                                    echo "<div class='grid_item'>Titolo: {$value->name}<br/></div>";
-                                    if (count($_SESSION['canzoni']) == 3) break 2;
-                                }
-                            }
-                        }
-                        $_SESSION['canzone1'] = $_SESSION['canzoni'][0];
-                        $_SESSION['canzone2'] = $_SESSION['canzoni'][1];
-                        $_SESSION['canzone3'] = $_SESSION['canzoni'][2];
-                        ?>
+
+        <div class="container my-5">
+            <h1 class="text-center mb-4">Le Tue Statistiche Spotify</h1>
+            <div class="row justify-content-center">
+                <?php
+                $nome = $_SESSION['spotify_nome'];
+                $q = "SELECT canzone1, canzone2, canzone3, artista1, artista2, artista3 FROM utente WHERE nome = $1";
+                $r = pg_query_params($dbconn, $q, array($nome));
+                $stats = pg_fetch_array($r, NULL, PGSQL_ASSOC);
+                ?>
+
+                <!-- Top 3 Canzoni -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white text-center" style="background-color: rgb(62 152 41) !important;">
+                            <h4 class="mb-0">Top 3 Canzoni</h4>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                            <li class="list-group-item"><?= $stats['canzone1'] ?? 'nessuna canzone'; ?></li>
+                            <li class="list-group-item"><?= $stats['canzone2'] ?? 'nessuna canzone'; ?></li>
+                            <li class="list-group-item"><?= $stats['canzone3'] ?? 'nessuna canzone'; ?></li>
+                        </ul>
                     </div>
-                    <div class="col-sm" style="text-align:center;">
-                        <h2>Top 3 artisti:</h2>
-                        <?php
-                        $_SESSION['artisti'] = [];
-                        $req_url = 'https://api.spotify.com/v1/me/top/artists';
-                        $top_user_artists = $__cURL->get_request($req_url, $_SESSION['spotify_token']->access_token);
-                        foreach ($top_user_artists as $content_value) {
-                            if (is_array($content_value)) {
-                                foreach ($content_value as $value) {
-                                    $_SESSION['artisti'][] = $value->id;
-                                    echo "<div class='grid_item'>Artista: {$value->name}<br/></div>";
-                                    if (count($_SESSION['artisti']) == 3) break 2;
-                                }
-                            }
-                        }
-                        $_SESSION['artista1'] = $_SESSION['artisti'][0];
-                        $_SESSION['artista2'] = $_SESSION['artisti'][1];
-                        $_SESSION['artista3'] = $_SESSION['artisti'][2];
-                        ?>
+                </div>
+
+                <!-- Top 3 Artisti -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white text-center">
+                            <h4 class="mb-0">Top 3 Artisti</h4>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                            <li class="list-group-item"><?= $stats['artista1'] ?? 'nessun artista'; ?></li>
+                            <li class="list-group-item"><?= $stats['artista2'] ?? 'nessun artista'; ?></li>
+                            <li class="list-group-item"><?= $stats['artista3'] ?? 'nessun artista'; ?></li>
+                        </ul>
                     </div>
                 </div>
             </div>
