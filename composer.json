@@ -1,7 +1,13 @@
 {
+    "name": "liodi/untuned2.4",
+    "autoload": {
+        "psr-4": {
+            "Liodi\\Untuned24\\": "src/"
+        }
+    },
     "require-dev": {
-        "codeception/codeception": "5.3",
-        "codeception/module-phpbrowser": "*",
-        "codeception/module-asserts": "*"
+        "codeception/codeception": "^5.3",
+        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-asserts": "^3.2"
     }
 }
