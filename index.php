@@ -71,7 +71,6 @@ require '_inc/curl.class.php';
 					<button class="dropbtn">Accedi</button>
 				<div class="dropdown-content">
 					<a href="Loginform.php">Login</a>
-					<a href="Register.html">Registrati</a>
 				</div><?php if(isset($_SESSION['name']) && $_SESSION['name'] == 'Admin')
 									header("location:Admin.php");?>
 			</div>

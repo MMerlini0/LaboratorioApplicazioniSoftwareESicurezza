@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <?php 
 session_start();
-$dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");?>
+$dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: LoginAdmin.php");
+    exit;
+}
+?>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -30,10 +35,6 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 				
 				<a class="titolo" href="index.php">Untuned</a>
 			<a class="pulsantiNav" href="Admin.php">Area Admin</a>
-						<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
-			<a class="pulsantiNav" href="index.php">Home</a>
-			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
-			<a class="pulsantiNav" href="articoli.php">Articoli</a>
 			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
 			<a href="logout.php" class="pulsantiNav" style="margin-right: 1%;">  Logout</a>
 			</nav>

@@ -25,16 +25,15 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
                 if ($tuple=pg_fetch_array($result, null, PGSQL_ASSOC)) {?>
                     <!-- Messaggio di errore -->
                     <script >    
-                    Swal.fire({
-  title: "<strong>Errore nella registrazione</strong>",
-  icon: "error",
-  html: `<b>L'email  <?= $_POST['InputEmail']?> è già utilizzata</b>`,
-  focusConfirm: false,
-  confirmButtonText: `Riprova!`
-}).then(function() {
-    window.location = "register.html";
-});
-
+                        Swal.fire({
+                        title: "<strong>Errore nella registrazione</strong>",
+                        icon: "error",
+                        html: `<b>L'email  <?= $_POST['InputEmail']?> è già utilizzata</b>`,
+                        focusConfirm: false,
+                        confirmButtonText: `Riprova!`
+                        }).then(function() {
+                            window.location = "register.html";
+                        });
                     </script>
                 <?php
                 }

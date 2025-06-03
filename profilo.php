@@ -252,7 +252,11 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
         </form>
         <div style="text-align: center;">
             <a href="articoli.php?email=<?php echo $email ?>" class="button" type="submit" value="Inserisci" id="inserisci">Mostra Articoli</a>
-            <a href="creaarticolo.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Articolo</a>
+            <?php if ($ro['ruolo'] === 'Giornalista') { ?>
+                <a href="creaarticolo.php" class="button" id="inserisci">Crea Articolo</a>
+            <?php } else { ?>
+                <a href="#" class="button disabled" style="pointer-events: none; opacity: 0.6;" id="inserisci" title="Solo i Giornalisti possono creare articoli">Crea Articolo</a>
+            <?php } ?>
         </div>
             </div><br>
             <?php

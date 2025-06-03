@@ -7,6 +7,11 @@ $__redirect_uri ="http://localhost:3000/callback/index.php";
 $__base_url="https://accounts.spotify.com";
 $__app_url="http://localhost:3000/index.php";
 require '_inc/curl.class.php';
+
+if (!isset($_SESSION['spotify_nome']) || !isset($_SESSION['email'])) {
+    header("Location: index.php");
+    exit;
+}
 ?>
 <html lang="en">
 <head>

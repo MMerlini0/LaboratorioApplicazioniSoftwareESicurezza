@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <?php session_start(); 
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432"); 
-
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: LoginAdmin.php");
+    exit;
+}
 ?>
 <html lang="en">
 <head>

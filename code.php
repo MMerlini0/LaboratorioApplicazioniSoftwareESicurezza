@@ -336,16 +336,39 @@ if(isset($_POST['inputtitolo']) && isset($_POST['inputcontenuto']) && isset($_PO
         header('location: profilo.php');
     }
 //UPGRADE UTENTE ADMIN
-if(isset($_POST['inputidutente']))
-    {
-        $idutente=$_POST['inputidutente'];
-        $ruolocorrente=$_POST['inputruolocorrente'];
-        $nuovoruolo=$_POST['inputnuovoruolo'];
+if(isset($_POST['inputidutente'])) {
+    $idutente = $_POST['inputidutente'];
+    $ruolocorrente = $_POST['inputruolocorrente'];
+    $nuovoruolo = $_POST['inputnuovoruolo'];
 
-        $query = "UPDATE utente SET ruolo='$nuovoruolo' WHERE nome='$idutente' and ruolo='$ruolocorrente' ";
-        pg_query($dbconn,$query);
-        header('location: Admin.php');
+    // Verifica se l'utente con nome e ruolo corrente esiste
+    $q_check = "SELECT * FROM utente WHERE nome = $1 AND ruolo = $2";
+    $result = pg_query_params($dbconn, $q_check, array($idutente, $ruolocorrente));
+
+    if (pg_num_rows($result) === 0) {
+        // se utente non trovato mostra alert
+        echo "<script>
+            alert('Nome utente e/o ruolo non esistenti nel database');
+            window.location.href = 'upgradeutenteadmin.php';
+        </script>";
+        exit;
     }
+
+    // Utente esiste, aggiorna ruolo
+    $query = "UPDATE utente SET ruolo = $1 WHERE nome = $2 AND ruolo = $3";
+    $data = pg_query_params($dbconn, $query, array($nuovoruolo, $idutente, $ruolocorrente));
+
+    if ($data) {
+        header('Location: Admin.php');
+        exit;
+    } else {
+        echo "<script>
+            alert('Errore nell\'aggiornamento del ruolo.');
+            window.location.href = 'upgradeutente.php';
+        </script>";
+        exit;
+    }
+}
     //CREA ARTICOLO ADMIN    
     if(isset($_POST['insertgiornalistaarticoloidadmin']))
     {

@@ -1,72 +1,58 @@
 <?php
+session_start();
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
+
+$email    = $_POST['InputEmail']    ?? null;
+$password = $_POST['InputPassword'] ?? null;
+
+if (!$email || !$password) {
+    header('Location: LoginAdmin.php');
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Accedi</title>
-    <link href="stile.css" rel="stylesheet">
+    <title>Login Admin</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="icon" href="pictures/LogoEasyRail.jpg" type="image/x-icon">
 </head>
-    <body>
+<body>
+<?php
+if ($dbconn) {
+    $email = $_POST['InputEmail'] ?? '';
+    $password = $_POST['InputPassword'] ?? '';
+
+    // Controllo se esiste utente con questa email, password e ruolo 'Admin'
+    $q = "SELECT * FROM utente WHERE email = $1 AND paswd = $2 AND ruolo = 'Admin'";
+    $result = pg_query_params($dbconn, $q, array($email, $password));
+    $tuple = pg_fetch_array($result, null, PGSQL_ASSOC);
+
+    if ($tuple) {
+        // Autenticazione admin riuscita
+        $_SESSION['email'] = $email;
+        $_SESSION['name'] = $tuple['nome'];
+        $_SESSION['ruolo'] = 'Admin';
+        $_SESSION['is_admin'] = true;
+        header("Location: Admin.php");
+        exit;
+    } else {
+        // Credenziali non valide o non admin
+        ?>
+        <script>
+        Swal.fire({
+            title: "Accesso negato",
+            icon: "error",
+            html: "<b>Email o password errati, o non sei un Admin.</b>",
+            confirmButtonText: "Riprova"
+        }).then(() => {
+            window.location = "LoginAdmin.php";
+        });
+        </script>
         <?php
-        session_start();
-        //Controlla se la connessione con il database è attiva 
-            if ($dbconn) {
-                //effettua controllo se una data email si trova nel database utente
-                $email = $_POST['InputEmail'];
-                $_SESSION['email'] = $email;
-                $q1 = "select * from utente where email= $1";
-                $result = pg_query_params($dbconn, $q1, array($email));
-                if (!($tuple=pg_fetch_array($result, null, PGSQL_ASSOC))) {
-                    ?>
-                        <!-- Messaggio di errore -->
-                    <script >
-                    Swal.fire({
-    title: "<strong>Errore nell'accesso</strong>",
-    icon: "error",
-    html: `<b>Non sembra che ti sia registrato</b>`,
-    focusConfirm: false,
-    confirmButtonText: `Registrati!`
-}).then(function() {
-    window.location = "Register.html";
-});
-
-                    </script> <?php                }
-                else {
-                    //effettua controllo se una data password sia correlata a una data email
-                    $password =$_POST['InputPassword'];
-                    $q2 = "select * from utente where email = $1 and paswd = $2";
-                    $result = pg_query_params($dbconn, $q2, array($email,$password));
-                    if (!($tuple=pg_fetch_array($result, null, PGSQL_ASSOC))) {
-                        ?>
-                    <script >
-                    Swal.fire({
-    title: "<strong>Errore nell'accesso</strong>",
-    icon: "error",
-    html: `<b>La password e' sbagliata!</b>`,
-    focusConfirm: false,
-    confirmButtonText:'Riprova!'
-}).then(function() {
-    window.location = "LoginAdmin.php";
-});;
-
-                    </script> <?php                     }
-                    else {
-                        //Inizializzo le variabili globali dell'utente corrente
-                        $nome = $tuple['nome'];
-                        $_SESSION['name']=$nome;
-                        $email= $tuple['email'];
-                        $_SESSION['email']=$_POST['InputEmail'];;
-                        $ruolo= $tuple['ruolo'];
-                        $_SESSION['ruolo']=$ruolo;
-                        header("location:index.php");
-                    }
-                }
-            }
-        ?> 
-    </body>
+    }
+}
+?>
+</body>
 </html>
