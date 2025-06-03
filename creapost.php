@@ -36,6 +36,9 @@ require '_inc/curl.class.php';
 	<header class="topnav">
 		<nav>
 		<a class="titolo" href="index.php">Untuned</a>
+		<a class="pulsantiNav" href="index.php">Home</a>
+			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
+			<a class="pulsantiNav" href="articoli.php">Articoli</a>
 			<?php if (!empty($_SESSION['spotify_token'])) {
 						$__cURL = new CurlServer();
 
@@ -88,7 +91,7 @@ require '_inc/curl.class.php';
 		$q= "SELECT * from utente WHERE nome = $1 ";
 		$r=pg_query_params($dbconn,$q,array($nome));
 		$ro = pg_fetch_array($r,NULL,PGSQL_ASSOC);
-		?>
+		?><br><br>
 	<form action="code.php" method="POST" style="margin-top: 60px auto 60px auto;min-width:30%;">
                 <div class="formhead">CREA IL POST</div>
 				<input type="hidden" name=insertutentepostid value="<?php echo $row['numeroid'] + 69; ?>">
@@ -115,8 +118,11 @@ require '_inc/curl.class.php';
                         <p>
                             <td><label for="inputgenere">Genere </label></td>
                             <td><select type="text" name="inputgenere" id="inputgenere" required>
-								<option value="genere1">Genere 1</option>
-								<option value="genere2">Genere 2</option>
+								<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
 							</td>
                         </p>
                     </tr>
@@ -127,7 +133,7 @@ require '_inc/curl.class.php';
 					<input class="button" type="reset" value="Annulla" id="inserisci">
 				</div>
                 <p></div>
-            </form>
+            </form><br><br>
 	</div>
 	<main>
 	

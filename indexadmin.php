@@ -85,8 +85,11 @@ require '_inc/curl.class.php';
 			<h3 style="margin: 0; margin-right: auto;">Genere</h3>
 			<div style="display: flex; align-items: center; margin-left: auto;">
 				<select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
-					<option value="genere1">Genere 1</option>
-					<option value="genere2">Genere 2</option>	
+					<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
 				</select>
 				<button type="submit" class="btn btn-danger" style="margin-left: 10px;">Applica</button>
 			</div>
@@ -129,6 +132,7 @@ require '_inc/curl.class.php';
         <!-- Meta: genere, data e email -->
         <div class="post-meta">
             <span class="genre"><?php echo htmlspecialchars($row['genere'], ENT_QUOTES, 'UTF-8'); ?></span>
+            <span class="genre"><?php echo htmlspecialchars($row['postid'], ENT_QUOTES, 'UTF-8'); ?></span>
             <span class="date"><?php echo htmlspecialchars($row['datapubblicazione'], ENT_QUOTES, 'UTF-8'); ?></span>
             <span class="email"><?php echo htmlspecialchars($creatore, ENT_QUOTES, 'UTF-8'); ?></span>
         </div>

@@ -24,12 +24,18 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
 		<!--Barra superiore-->
 		<header class="topnav">
 			<nav>
-			<a class="titolo" >Untuned</a>
 					<div class="log dropdown">
 						<button class="dropbtn">Admin</button>
 					</div>
-				<a class=" center" href="Admin.php">Area Admin</a>
-				<a href="logout.php" style="margin-right: 1%;">  Logout</a>
+				
+				<a class="titolo" href="index.php">Untuned</a>
+			<a class="pulsantiNav" href="Admin.php">Area Admin</a>
+						<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
+			<a class="pulsantiNav" href="index.php">Home</a>
+			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
+			<a class="pulsantiNav" href="articoli.php">Articoli</a>
+			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
+			<a href="logout.php" class="pulsantiNav" style="margin-right: 1%;">  Logout</a>
 			</nav>
 		</header>
 		<!-- Diversi Form per l'inserimento e la visualizzazione dei dati -->

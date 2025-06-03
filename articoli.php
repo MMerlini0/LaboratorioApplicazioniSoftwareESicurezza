@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php session_start(); 
+
 $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar port=5432");
 $__app_secret = "a76619b8bddd432b9248fa0be1d4ce3a";
 $__app_client_id = "05a4f7e97e5f4fd9bd130d40feb97392";
@@ -7,7 +7,7 @@ $__redirect_uri ="http://localhost:3000/callback/index.php";
 $__base_url="https://accounts.spotify.com";
 $__app_url="http://localhost:3000/index.php";
 require '_inc/curl.class.php';
-?>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -50,22 +50,9 @@ require '_inc/curl.class.php';
 						<div class="log dropdown">
 							<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 							<div class="dropdown-content">
-							    <a href="articoli.php">Articoli</a>
+							    
 								<a href="profilo.php">Area Personale</a>
 								<a href="logout.php">Logout</a>
-							</div>
-						</div>
-						<?php 
-					}else if($_SESSION['ruolo'] == 'Giornalista'){ ?>
-						<div class="log dropdown">
-							<button class="dropbtn"><?= $_SESSION['name']?></button>
-							<div class="dropdown-content">
-							<a href="articoli.php">Articoli</a>
-							<?php if($_SESSION['name'] == 'Admin'){ 
-									header("location:Admin.php");?>
-								<?php }else{?>
-								<a href="logout.php">Logout</a>
-								<?php } ?>
 							</div>
 						</div>
 						<?php 
@@ -88,6 +75,17 @@ require '_inc/curl.class.php';
 			$query ="SELECT * from articolo WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);}
+			}else if(isset($_GET['email'])){
+			$filtervalues = $_GET['email'];
+			if(isset($_POST['inputgenerefiltro'])){
+				$generefiltro=$_POST['inputgenerefiltro'];
+				$query ="SELECT * from articolo WHERE genere='$generefiltro' and emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione ";
+			$result=pg_query($query);
+			$check=pg_num_rows($result);
+			}else{
+			$query ="SELECT * from articolo WHERE emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione";
+			$result=pg_query($query);
+			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
@@ -101,11 +99,18 @@ require '_inc/curl.class.php';
 		</nav>
 	</header>
 	<br>
-	<?php  if (!empty($_SESSION['spotify_token'])) { ?>
+	<?php
+	if (!empty($_SESSION['spotify_token'])) {
+	$nome= $_SESSION['spotify_nome'];
+	$q= "SELECT * from utente WHERE nome = $1 ";
+	$r=pg_query_params($dbconn,$q,array($nome));
+	$ro = pg_fetch_array($r,NULL,PGSQL_ASSOC);
+	$email= $ro['email'];
+	if($ro['ruolo'] == 'Giornalista'){?>
 	<div style="text-align: center;">
                     <a href="creaarticolo.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Articolo</a>
-                </div>
-				<?php } ?>
+    </div>
+	<?php }} ?>
 
 
 	<!-- parte centrale -->
@@ -114,8 +119,11 @@ require '_inc/curl.class.php';
 			<h3 style="margin: 0; margin-right: auto;">Genere</h3>
 			<div style="display: flex; align-items: center; margin-left: auto;">
 				<select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
-					<option value="genere1">Genere 1</option>
-					<option value="genere2">Genere 2</option>	
+					<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
 				</select>
 				<button type="submit" class="btn btn-danger" style="margin-left: 10px;">Applica</button>
 			</div>
@@ -164,7 +172,7 @@ require '_inc/curl.class.php';
 
         <!-- Azioni: Modifica/Cancella allineate a destra -->
         <div class="article-actions">
-            <?php if (empty($_SESSION['spotify_token'])) { ?>
+            <?php if (!empty($_SESSION['spotify_token']) && $creatore==$email) { ?>
                 <a href="edit.php?giornalistaarticoloid=<?php echo $row['articoloid']; ?>" class="btn btn-success">Modifica dati</a>
                 <form action="code.php" method="POST" style="display:inline">
                     <input type="hidden" name="giornalistadeleteid" value="<?php echo $row['articoloid']; ?>">

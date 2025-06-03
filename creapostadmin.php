@@ -77,8 +77,11 @@ require '_inc/curl.class.php';
                         <p>
                             <td><label for="inputgenere">Genere: </label></td>
                             <td><select type="text" name="inputgenere" id="inputgenere" required>
-								<option value="genere1">Genere 1</option>
-								<option value="genere2">Genere 2</option>
+								<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
 							</td>
                         </p>
                     </tr>

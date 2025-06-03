@@ -51,10 +51,13 @@ require '_inc/curl.class.php';
 
 	<div class="form-2" style="width:auto;margin-left: auto;margin-right: auto;">
 	<form style="margin-top: -15px;" action="articoli.php" method="POST">
-			<h3>Filtra per il genere   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required>
-								<option value="genere1">Genere 1</option>
-								<option value="genere2">Genere 2</option>	
-			</select>
+			<h3>Filtra per il genere   <select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
+					<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
+				</select>
 			<button type="submit" class="btn btn-danger">  Applica</button></form></h3>
 			<div>
 			<form action="" method="GET">
@@ -76,6 +79,7 @@ require '_inc/curl.class.php';
 									<td class="name"><?php echo $row['titolo']; ?></td>
 									<td onclick="location.href='visualizzazionearticolo.php?ARTICOLOID=<?php echo $row['articoloid']; ?>';" style="cursor: pointer;"><?php echo $row['contenuto']; ?></td>
 									<td><?php echo $row['genere']; ?></td>
+									<td><?php echo $row['articoloid']; ?></td>
 									<td><?php echo $row['datapubblicazione']; ?></td>
 									<td><?php echo $row['emailcreatore']; ?></td>
 									<?php  if (empty($_SESSION['spotify_token'])) { ?>

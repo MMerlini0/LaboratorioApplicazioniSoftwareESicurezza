@@ -30,6 +30,9 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 <header class="topnav">
 	<nav>
 		<a class="titolo" href="index.php">Untuned</a>
+			<a class="pulsantiNav" href="index.php">Home</a>
+			<span style="margin: 0 10px; border-left: 3px solid white; height: 20px; display: inline-flex;"></span>
+			<a class="pulsantiNav" href="articoli.php">Articoli</a>
 		<?php
 		if (!empty($_SESSION['spotify_token'])) {
 			$__cURL = new CurlServer();
@@ -39,19 +42,12 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 			<div class="log dropdown">
 				<button class="dropbtn"><?= $_SESSION['spotify_nome'] ?></button>
 				<div class="dropdown-content">
-					<a href="articoli.php">Articoli</a>
+					
 					<a href="profilo.php">Area Personale</a>
 					<a href="logout.php">Logout</a>
 				</div>
 			</div>
-		<?php } elseif (isset($_SESSION['ruolo']) && $_SESSION['ruolo'] == 'Giornalista') { ?>
-			<div class="log dropdown">
-				<button class="dropbtn"><?= $_SESSION['name'] ?></button>
-				<div class="dropdown-content">
-					<a href="articoli.php">Articoli</a>
-				</div>
-			</div>
-		<?php } else { ?>
+		<?php }else { ?>
 			<div class="log dropdown">
 				<button class="dropbtn">Accedi</button>
 				<div class="dropdown-content">
@@ -59,7 +55,13 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 					<a href="Register.html">Registrati</a>
 				</div>
 			</div>
-		<?php } ?>
+		<?php } if (!empty($_SESSION['spotify_token'])) {
+	$nome= $_SESSION['spotify_nome'];
+	$q= "SELECT * from utente WHERE nome = $1 ";
+	$r=pg_query_params($dbconn,$q,array($nome));
+	$ro = pg_fetch_array($r,NULL,PGSQL_ASSOC); 
+	$email = $ro['email'];
+	} ?>
 	</nav>
 </header>
 <br>
@@ -79,14 +81,16 @@ if (!isset($_SESSION['ruolo'])) $_SESSION['ruolo'] = '';
 			<div class="article-body"><?= nl2br(htmlspecialchars($row['contenuto'])) ?></div>
 			<div class="article-footer">
 				<div class="article-actions" style="display: flex; gap: 1rem; align-items: center;">
-					<?php if (!empty($_SESSION['spotify_token'])) { ?>
+					<?php if (!empty($_SESSION['spotify_token']) && $creatore == $email) { ?>
 						<a href="edit.php?utentearticoloid=<?= $row['articoloid'] ?>" class="btn btn-success">Modifica</a>
 						<form action="code.php" method="POST" style="display:inline;">
 							<input type="hidden" name="utentedeleteid" value="<?= $row['articoloid'] ?>">
 							<button type="submit" class="btn btn-danger">Elimina</button>
-						</form>
-					<?php } ?>
-					<a href="creacommentoarticolo.php?utentearticoloid=<?= $row['articoloid'] ?>" class="btn btn-primary">Commenta</a>
+						<a href="creacommentoarticolo.php?utentearticoloid=<?= $row['articoloid'] ?>" class="btn btn-primary">Commenta</a></form>
+					<?php }else if(!empty($_SESSION['spotify_token'])){ ?>
+																<a href="creacommento.php?utentepostid=<?= $row['postid'] ?>" class="btn btn-primary">Commenta</a>
+								<?php } ?>
+					
 				</div>
 				<div class="article-meta text-muted" style="font-size: 0.8rem;">
 					<?= htmlspecialchars($creatore) ?> | <?= htmlspecialchars($row['datapubblicazione']) ?>

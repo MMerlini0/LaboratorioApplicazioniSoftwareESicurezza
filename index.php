@@ -87,6 +87,17 @@ require '_inc/curl.class.php';
 			$query ="SELECT * from post WHERE titolo LIKE '%$filtervalues%' ORDER BY  datapubblicazione";
 			$result=pg_query($query);
 			$check=pg_num_rows($result);}
+			}else if(isset($_GET['email'])){
+			$filtervalues = $_GET['email'];
+			if(isset($_POST['inputgenerefiltro'])){
+				$generefiltro=$_POST['inputgenerefiltro'];
+				$query ="SELECT * from post WHERE genere='$generefiltro' and emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione ";
+			$result=pg_query($query);
+			$check=pg_num_rows($result);
+			}else{
+			$query ="SELECT * from post WHERE emailcreatore='$filtervalues' and ban='false' ORDER BY  datapubblicazione";
+			$result=pg_query($query);
+			$check=pg_num_rows($result);}
 			}else{
 			if(isset($_POST['inputgenerefiltro'])){
 				$generefiltro=$_POST['inputgenerefiltro'];
@@ -104,11 +115,17 @@ require '_inc/curl.class.php';
 		</nav>
 	</header>
 	<br>
-	<?php  if (!empty($_SESSION['spotify_token'])) { ?>
+	<?php
+	if (!empty($_SESSION['spotify_token'])) {
+	$nome= $_SESSION['spotify_nome'];
+	$q= "SELECT * from utente WHERE nome = $1 ";
+	$r=pg_query_params($dbconn,$q,array($nome));
+	$ro = pg_fetch_array($r,NULL,PGSQL_ASSOC);
+	if($ro['ruolo'] == 'Utente'){?>
 		<div style="text-align: center;">
                     <a href="creapost.php" class="button" type="submit" value="Inserisci" id="inserisci">Crea Post</a>
                 </div>
-				<?php } ?>
+				<?php }} ?>
 
 
 	<!-- parte centrale-->
@@ -117,8 +134,11 @@ require '_inc/curl.class.php';
 			<h3 style="margin: 0; margin-right: auto;">Genere</h3>
 			<div style="display: flex; align-items: center; margin-left: auto;">
 				<select type="text" name="inputgenerefiltro" id="inputgenerefiltro" required style="width: 150px; height: 40px; font-size: 16px;">
-					<option value="genere1">Genere 1</option>
-					<option value="genere2">Genere 2</option>	
+					<option value="genere1">Pop</option>
+					<option value="genere2">Hip Hop / Rap</option>	
+					<option value="genere3">Rock</option>	
+					<option value="genere4">EDM (Electronic Dance Music)</option>	
+					<option value="genere5">Reggaeton / Latin</option>	
 				</select>
 				<button type="submit" class="btn btn-danger" style="margin-left: 10px;">Applica</button>
 			</div>

@@ -52,7 +52,7 @@ $dbconn = pg_connect("host=localhost dbname=Untuned user=postgres password=biar 
   confirmButtonText:'Riprova!'
   
 }).then(function() {
-    window.location = "Login.html";
+    window.location = "LoginAdmin.php";
 });;
 
                     </script> <?php                     }
